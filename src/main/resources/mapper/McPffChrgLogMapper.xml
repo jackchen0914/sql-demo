@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.McPffChrgLogMapper">
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_PFF_CHRG_LOG(PFF_CHRG_LOG_ID, TXN_TYP_ID, SPCAL_CHRG_GRP_CDE,
+            YEAR_MTH, FROM_DATE, TO_DATE, CMPNY_CDE, MRKT_GRP_ID, MRKT_ID, AC_ID,
+            CHRG_CCY_CDE, ACRU_CHRG_AMT, ACRU_CHRWV_DR_AMT, ACRU_CHRWV_WITHOUT_POST_AMT,
+            IS_SHOW_STMT, IS_POST_LEDG, POST_LEDG_DATE, AC_FUND_TXN_RID, REV_AC_FUND_TXN_RID,
+            REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.pffChrgLogId},#{item.txnTypId,jdbcType=BIGINT},#{item.spcalChrgGrpCde,jdbcType=VARCHAR},#{item.yearMth,jdbcType=TIMESTAMP},#{item.fromDate,jdbcType=TIMESTAMP},#{item.toDate,jdbcType=TIMESTAMP},#{item.cmpnyCde,jdbcType=VARCHAR},#{item.mrktGrpId,jdbcType=BIGINT},#{item.mrktId,jdbcType=BIGINT},#{item.acId,jdbcType=VARCHAR},
+            #{item.chrgCcyCde,jdbcType=VARCHAR},#{item.acruChrgAmt,jdbcType=DECIMAL},#{item.acruChrwvDrAmt,jdbcType=DECIMAL},#{item.acruChrwvWithoutPostAmt,jdbcType=DECIMAL},#{item.isShowStmt,jdbcType=VARCHAR},#{item.isPostLedg,jdbcType=VARCHAR},#{item.postLedgDate,jdbcType=TIMESTAMP},#{item.acFundTxnRid,jdbcType=BIGINT},
+            #{item.revAcFundTxnRid,jdbcType=BIGINT},#{item.recVerNum,jdbcType=BIGINT},#{item.initTime,jdbcType=TIMESTAMP},#{item.lastUpdTime,jdbcType=TIMESTAMP},#{item.lastUpdBy,jdbcType=VARCHAR},#{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+</mapper>

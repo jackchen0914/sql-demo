@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.CashVoucherMapper">
+
+    <resultMap type="org.example.pojo.dtos.CashVoucherWithRequestDTO" id="CashVoucherWithRequestMap">
+        <id     property="voucherNo"        column="VoucherNo"       />
+        <id     property="market"        column="Market"       />
+
+        <result property="voucherDate"      column="VoucherDate"     />
+        <result property="confirmationDate"      column="ConfirmationDate"     />
+        <result property="referenceNo"      column="ReferenceNo"     />
+        <result property="clnt"      column="Clnt"     />
+        <result property="clntAcctType"      column="ClntAcctType"     />
+
+        <result property="bankNo"      column="BankNo"     />
+        <result property="ccy"      column="Ccy"     />
+        <result property="comment"      column="Comment"     />
+        <result property="userid"      column="Userid"     />
+        <result property="status"      column="Status"     />
+        <result property="timeStamp"      column="TimeStamp"     />
+        <result property="charge"      column="Charge"     />
+        <result property="valueDate"      column="ValueDate"     />
+        <result property="txnType"      column="TxnType"     />
+        <result property="printChq"      column="PrintChq"     />
+        <result property="cancelDate"      column="CancelDate"     />
+        <result property="chequeNo"      column="ChequeNo"     />
+        <result property="chequeDate"      column="ChequeDate"     />
+        <result property="manualInput"      column="ManualInput"     />
+        <result property="remark"      column="Remark"     />
+        <result property="gLCode"      column="GLCode"     />
+        <result property="bankGLCode"      column="BankGLCode"     />
+        <result property="authorizedUserID1"      column="AuthorizedUserID1"     />
+        <result property="authorizedUserID2"      column="AuthorizedUserID2"     />
+        <result property="sendOutUserID"      column="SendOutUserID"     />
+        <result property="cancelSendOutUserID"      column="CancelSendOutUserID"     />
+        <result property="verifiedStatus"      column="VerifiedStatus"     />
+        <result property="statusFlag"      column="StatusFlag"     />
+        <result property="source"      column="Source"     />
+        <result property="reason"      column="Reason"     />
+        <result property="batchNo"      column="BatchNo"     />
+        <result property="exportTime"      column="ExportTime"     />
+        <result property="exportCount"      column="ExportCount"     />
+        <result property="bankAccount"      column="BankAccount"     />
+        <result property="accountName"      column="AccountName"     />
+        <result property="accountNumber"      column="AccountNumber"     />
+        <result property="accountAddress"      column="AccountAddress"     />
+        <result property="accountContactNo"      column="AccountContactNo"     />
+        <result property="accountMobileNo"      column="AccountMobileNo"     />
+        <result property="chargeChannel"      column="ChargeChannel"     />
+        <result property="bankVRemark"      column="BankVRemark"     />
+        <result property="paymentPurposeDetail"      column="PaymentPurposeDetail"     />
+        <result property="inputDate"      column="InputDate"     />
+        <result property="voucherType"      column="VoucherType"     />
+        <result property="userIDTime"      column="UserIDTime"     />
+        <result property="approver"      column="Approver"     />
+        <result property="approvalTime"      column="ApprovalTime"     />
+        <result property="sPISource"      column="SPISource"     />
+        <result property="sPIBankAccount"      column="SPIBankAccount"     />
+        <result property="relationship"      column="Relationship"     />
+        <result property="mode"      column="Mode"     />
+        <result property="withdrawMode"      column="WithdrawMode"     />
+    </resultMap>
+
+    <select id="selectCashVoucherWithRequest" resultMap="CashVoucherWithRequestMap">
+
+        select
+        TOP 5
+        t1.*,
+        t2.Relationship,
+        t2.Mode,
+        t2.WithdrawMode
+        from
+        CashVoucher t1
+        left join CashVoucherRequest t2 on
+        t1.VoucherNo = t2.VoucherNo
+        and t1.Market = t2.Market
+        order by
+        t1.VoucherNo,t1.Market;
+
+    </select>
+
+<!--    select-->
+<!--    t1.Market ,-->
+<!--    t1.CCY  ,-->
+<!--    t1.[Source]  ,-->
+<!--    t1.MinBrokerage  ,-->
+<!--    t1.MaxBrokerage  ,-->
+<!--    t1.[Type]  ,-->
+<!--    t2.PercentRate  ,-->
+<!--    t2.AdditionalAmount-->
+<!--    from Brokerage t1-->
+<!--    left join BrokerageRate t2 on t1.Market = t2.Market-->
+<!--    and t1.CCY = t2.CCY-->
+<!--    order by t1.Market,t1.CCY-->
+<!--    OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY;-->
+</mapper>

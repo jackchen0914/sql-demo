@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.BrokerageMapper">
+
+    <resultMap type="org.example.pojo.dtos.BrokerageWithRageDTO" id="selectBrokerageWithRageMap">
+        <result property="market"     column="Market"     />
+        <result property="ccy"     column="Ccy"     />
+        <result property="source"     column="Source"     />
+        <result property="minBrokerage"     column="MinBrokerage"     />
+        <result property="maxBrokerage"     column="MaxBrokerage"     />
+        <result property="type"     column="Type"     />
+        <result property="percentRate"     column="PercentRate"     />
+        <result property="additionalAmount"     column="AdditionalAmount"     />
+    </resultMap>
+
+
+    <select id="selectBrokerageAll" resultMap="selectBrokerageWithRageMap">
+
+        select
+        t1.Market ,
+        t1.CCY ,
+        t1.[Source] ,
+        t1.MinBrokerage ,
+        t1.MaxBrokerage ,
+        t1.[Type] ,
+        t2.PercentRate ,
+        t2.AdditionalAmount
+        from Brokerage t1
+        left join BrokerageRate t2 on t1.Market = t2.Market
+        and t1.CCY = t2.CCY
+        order by t1.Market,t1.CCY
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY;
+
+    </select>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.McCommCalcMtdMapper">
+
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_COMM_CALC_MTD (COMM_CALC_MTD_ID, CMPNY_CDE, CALC_MTD_CDE, COMM_CALC_MTD_DESCR, COMM_FR_CDE,
+            COMM_TYP_CDE, COMM_BASE_VAL_CDE, COMM_CALC_TYP_CDE, COMM_HLDP_AMT, COMM_HLDP_RATE, PAY_CCY_CDE, IS_OBSOL,
+            TIER_COMM_BASE_VAL_CDE, MIN_COMM_AMT, MAX_COMM_AMT, FIX_RATE, FIX_AMT, ADDTN_FIX_AMT, IS_ADVANCE_SETG,
+            IS_AE_RB_CMPNY_BSLN_PRTCT, VER_STAT, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.commCalcMtdId,jdbcType=BIGINT}, #{item.cmpnyCde,jdbcType=VARCHAR},
+            #{item.calcMtdCde,jdbcType=VARCHAR}, #{item.commCalcMtdDescr,jdbcType=VARCHAR},
+            #{item.commFrCde,jdbcType=VARCHAR}, #{item.commTypCde,jdbcType=VARCHAR},
+            #{item.commBaseValCde,jdbcType=VARCHAR}, #{item.commCalcTypCde,jdbcType=VARCHAR},
+            #{item.commHldpAmt,jdbcType=DECIMAL}, #{item.commHldpRate,jdbcType=DECIMAL},
+            #{item.payCcyCde,jdbcType=VARCHAR}, #{item.isObsol,jdbcType=VARCHAR},
+            #{item.tierCommBaseValCde,jdbcType=VARCHAR}, #{item.minCommAmt,jdbcType=DECIMAL},
+            #{item.maxCommAmt,jdbcType=DECIMAL}, #{item.fixRate,jdbcType=DECIMAL}, #{item.fixAmt,jdbcType=DECIMAL},
+            #{item.addtnFixAmt,jdbcType=DECIMAL}, #{item.isAdvanceSetg,jdbcType=VARCHAR},
+            #{item.isAeRbCmpnyBslnPrtct,jdbcType=VARCHAR}, #{item.verStat,jdbcType=VARCHAR},
+            #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+</mapper>

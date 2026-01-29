@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.McRmAcInstrLndratMapper">
+
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_RM_AC_INSTR_LNDRAT (RM_AC_INSTR_LNDRAT_ID, AC_ID, INSTR_ID, IS_ACTV, AC_LNDRAT, REMRK,
+            VER_STAT, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.rmAcInstrLndratId,jdbcType=BIGINT}, #{item.acId,jdbcType=VARCHAR},
+            #{item.instrId,jdbcType=BIGINT}, #{item.isActv,jdbcType=VARCHAR}, #{item.acLndrat,jdbcType=DECIMAL},
+            #{item.remrk,jdbcType=VARCHAR}, #{item.verStat,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+</mapper>

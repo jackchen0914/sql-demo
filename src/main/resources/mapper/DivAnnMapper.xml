@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.DivAnnMapper">
+
+    <resultMap type="org.example.pojo.dtos.CaRSCDTO" id="selectDivAnnWithRightMap">
+
+        <result property="actionTypeList"      column="ActionTypeList"     />
+        <result property="status"      column="Status"     />
+        <result property="referenceNo"      column="ReferenceNo"     />
+        <result property="payableDate"      column="PayableDate"     />
+        <result property="market"      column="Market"     />
+        <result property="exDividendDate"      column="ExDividendDate"     />
+        <result property="instrument"      column="Instrument"     />
+        <result property="announcementSummary"      column="AnnouncementSummary"     />
+        <result property="rightsIssue"      column="RightsIssue"     />
+        <result property="rightsFor"      column="RightsFor"     />
+        <result property="rightsInstrument"      column="RightsInstrument"     />
+        <result property="splitFrom"      column="SplitFrom"     />
+        <result property="splitTo"      column="SplitTo"     />
+        <result property="splitInstrument"      column="SplitInstrument"     />
+        <result property="combineFrom"      column="CombineFrom"     />
+        <result property="combineTo"      column="CombineTo"     />
+        <result property="combineInstrument"      column="CombineInstrument"     />
+
+    </resultMap>
+
+    <select id="selectDivAnnWithRight" resultMap="selectDivAnnWithRightMap">
+        select
+        t1.ActionTypeList ,
+        t1.Status ,
+        t1.Market  ,
+        t1.Instrument  ,
+        t1.ReferenceNo  ,
+        t1.ExDividendDate  ,
+        t1.PayableDate  ,
+        t1.AnnouncementSummary  ,
+        t2.RightsInstrument ,
+        t2.RightsIssue ,
+        t2.RightsFor,
+        t3.SplitFrom,
+        t3.SplitTo ,
+        t3.SplitInstrument,
+        t4.CombineFrom,
+        t4.CombineTo ,
+        t4.CombineInstrument
+        from DivAnn t1
+        left join DivAnnRights t2 on t1.AnnouncementNo = t2.AnnouncementNo
+        left join DivAnnSplit t3 on t1.AnnouncementNo = t3.AnnouncementNo
+        left join DivAnnCombine t4 on t1.AnnouncementNo = t4.AnnouncementNo
+        where t1.ActionTypeList = '/RGHT/' or t1.ActionTypeList = '/SPLT/' or t1.ActionTypeList = '/CNSD/'
+        order by t1.AnnouncementNo
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY;
+    </select>
+
+</mapper>

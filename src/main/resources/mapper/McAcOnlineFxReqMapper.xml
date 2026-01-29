@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.McAcOnlineFxReqMapper">
+
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_AC_ONLINE_FX_REQ (AC_ONLINE_FX_REQ_ID, CMPNY_CDE, CMPNY_IBUSDATE, CMPNY_BUSDATE,
+            FROM_AC_ID, FROM_SEGR_FUND_ID, FROM_CCY_CDE, FROM_AMT, TO_AC_ID, TO_SEGR_FUND_ID, TO_CCY_CDE, TO_AMT,
+            VAL_DATE, EXCH_RATE, CONV_PURP_CDE, APRV_CMPNY_IBUSDATE, APRV_CMPNY_BUSDATE, APRV_TIME,
+            CANCL_CMPNY_IBUSDATE, CANCL_CMPNY_BUSDATE, CANCL_TIME, FX_STAT_CDE, ORDER_KEY, REC_VER_NUM, INIT_TIME,
+            LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.acOnlineFxReqId,jdbcType=BIGINT}, #{item.cmpnyCde,jdbcType=VARCHAR},
+            #{item.cmpnyIbusdate,jdbcType=TIMESTAMP}, #{item.cmpnyBusdate,jdbcType=TIMESTAMP},
+            #{item.fromAcId,jdbcType=VARCHAR}, #{item.fromSegrFundId,jdbcType=BIGINT},
+            #{item.fromCcyCde,jdbcType=VARCHAR}, #{item.fromAmt,jdbcType=DECIMAL}, #{item.toAcId,jdbcType=VARCHAR},
+            #{item.toSegrFundId,jdbcType=BIGINT}, #{item.toCcyCde,jdbcType=VARCHAR}, #{item.toAmt,jdbcType=DECIMAL},
+            #{item.valDate,jdbcType=TIMESTAMP}, #{item.exchRate,jdbcType=DECIMAL}, #{item.convPurpCde,jdbcType=VARCHAR},
+            #{item.aprvCmpnyIbusdate,jdbcType=TIMESTAMP}, #{item.aprvCmpnyBusdate,jdbcType=TIMESTAMP},
+            #{item.aprvTime,jdbcType=TIMESTAMP}, #{item.canclCmpnyIbusdate,jdbcType=TIMESTAMP},
+            #{item.canclCmpnyBusdate,jdbcType=TIMESTAMP}, #{item.canclTime,jdbcType=TIMESTAMP},
+            #{item.fxStatCde,jdbcType=VARCHAR}, #{item.orderKey,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+</mapper>

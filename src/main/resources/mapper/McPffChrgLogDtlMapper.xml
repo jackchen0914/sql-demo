@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.McPffChrgLogDtlMapper">
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_PFF_CHRG_LOG_DTL(PFF_CHRG_LOG_DTL_ID, PFF_CHRG_LOG_ID, TXN_DATE, CHRG_AMT, CHRWV_AMT,
+            CHRWV_MTD_CDE, IS_WAIVE, PROFO_VAL, CHRG_GRP_VID, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES
+            (#{item.pffChrgLogDtlId},#{item.pffChrgLogId},#{item.txnDate,jdbcType=TIMESTAMP},#{item.chrgAmt,jdbcType=DECIMAL},#{item.chrwvAmt,jdbcType=DECIMAL},#{item.chrwvMtdCde,jdbcType=VARCHAR},#{item.isWaive,jdbcType=VARCHAR},#{item.profoVal,jdbcType=DECIMAL},#{item.chrgGrpVid,jdbcType=BIGINT},#{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP},#{item.lastUpdTime,jdbcType=TIMESTAMP},#{item.lastUpdBy,jdbcType=VARCHAR},#{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+</mapper>
