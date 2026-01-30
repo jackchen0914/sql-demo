@@ -3,6 +3,8 @@ package org.example.batch.reader;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.example.mapper.BrokerageMapper;
 import org.example.mapper.DivAnnMapper;
+import org.example.mapper.GlobalSettingsMapper;
+import org.example.pojo.GlobalSettingsPO;
 import org.example.pojo.dtos.BrokerageWithRageDTO;
 import org.example.pojo.dtos.CaRSCDTO;
 import org.springframework.batch.item.ItemReader;
@@ -20,6 +22,9 @@ public class BrokerageWithRageReader implements ItemReader<BrokerageWithRageDTO>
 
     @Autowired
     private BrokerageMapper brokerageMapper;
+
+    @Autowired
+    private GlobalSettingsMapper globalSettingsMapper;
 
     private List<BrokerageWithRageDTO> currentBatch;
     private final AtomicInteger currentIndex = new AtomicInteger(0);
@@ -42,7 +47,17 @@ public class BrokerageWithRageReader implements ItemReader<BrokerageWithRageDTO>
 
         int index = currentIndex.getAndIncrement();
         if (index < currentBatch.size()) {
-            return currentBatch.get(index);
+            BrokerageWithRageDTO brokerageWithRageDTO = currentBatch.get(index);
+            if(brokerageWithRageDTO.getSource()!=null){
+                GlobalSettingsPO settings = globalSettingsMapper.selectSettingBySource(brokerageWithRageDTO.getSource());
+                if(settings!=null) {
+                    brokerageWithRageDTO.setSettingsValue(settings.getSetting());
+                }else{
+                    brokerageWithRageDTO.setSettingsValue(" ");
+                }
+            }
+            return brokerageWithRageDTO;
+//            return currentBatch.get(index);
         }
         return null;
     }

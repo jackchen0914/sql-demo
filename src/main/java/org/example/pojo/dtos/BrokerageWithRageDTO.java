@@ -18,5 +18,5 @@ public class BrokerageWithRageDTO implements Serializable {
     private String type;
     private BigDecimal percentRate;
     private BigDecimal additionalAmount;
-
+    private String settingsValue;
 }

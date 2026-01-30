@@ -85,4 +85,10 @@ public class InterestDailyPO implements Serializable {
     @TableField("MethodType")
 //    @TableId("MethodType")
     private String methodType;
+
+    //===== non-table field =====//
+    @TableField(exist = false)
+    private BigDecimal rateToBaseCcy;
+    @TableField(exist = false)
+    private BigDecimal rateFromBaseCcy;
 }

@@ -83,26 +83,26 @@ public class BatchJobService{
     }
 
     //=========== ClntPriceCap ============
-//    @Autowired
-//    @Qualifier("clntPriceCapMigrationJob")
-//    private Job clntPriceCapMigrationJob;
-//
-//    @Autowired
-//    private ClntPriceCapReader clntPriceCapReader;
-//
-//    public String startClntPriceCapMigration(){
-//        try {
-//            clntPriceCapReader.reset();
-//            JobParameters jobParameters = new JobParametersBuilder()
-//                    .addLong("timestamp",System.currentTimeMillis())
-//                    .toJobParameters();
-//            jobLauncher.run(clntPriceCapMigrationJob, jobParameters);
-//            return "successfully";
-//        } catch (Exception e) {
-//            log.error("error",e);
-//            return "error: " + e.getMessage();
-//        }
-//    }
+    @Autowired
+    @Qualifier("clntPriceCapMigrationJob")
+    private Job clntPriceCapMigrationJob;
+
+    @Autowired
+    private ClntPriceCapReader clntPriceCapReader;
+
+    public String startClntPriceCapMigration(){
+        try {
+            clntPriceCapReader.reset();
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("timestamp",System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(clntPriceCapMigrationJob, jobParameters);
+            return "successfully";
+        } catch (Exception e) {
+            log.error("error",e);
+            return "error: " + e.getMessage();
+        }
+    }
 
     //=========== CashTransferAll ============
     @Autowired
@@ -128,28 +128,6 @@ public class BatchJobService{
 
     //=========== Brokerage ============
     @Autowired
-    @Qualifier("brokerageMigrationJob")
-    private Job brokerageMigrationJob;
-
-    @Autowired
-    private BrokerageReader brokerageReader;
-
-    public String startBrokerageMigration(){
-        try {
-            brokerageReader.reset();
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLong("timestamp",System.currentTimeMillis())
-                    .toJobParameters();
-            jobLauncher.run(brokerageMigrationJob, jobParameters);
-            return "successfully";
-        } catch (Exception e) {
-            log.error("error",e);
-            return "error: " + e.getMessage();
-        }
-    }
-
-    //=========== BrokerageWithRage ============
-    @Autowired
     @Qualifier("brokerageWithRageMigrationJob")
     private Job brokerageWithRageMigrationJob;
 
@@ -163,6 +141,28 @@ public class BatchJobService{
                     .addLong("timestamp",System.currentTimeMillis())
                     .toJobParameters();
             jobLauncher.run(brokerageWithRageMigrationJob, jobParameters);
+            return "successfully";
+        } catch (Exception e) {
+            log.error("error",e);
+            return "error: " + e.getMessage();
+        }
+    }
+
+    //=========== InterestDaily ============
+    @Autowired
+    @Qualifier("interestDailyMigrationJob")
+    private Job interestDailyMigrationJob;
+
+    @Autowired
+    private InterestDailyReader interestDailyReader;
+
+    public String startInterestDailyMigration(){
+        try {
+            interestDailyReader.reset();
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("timestamp",System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(interestDailyMigrationJob, jobParameters);
             return "successfully";
         } catch (Exception e) {
             log.error("error",e);

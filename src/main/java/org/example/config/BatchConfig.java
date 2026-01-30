@@ -5,6 +5,7 @@ import org.example.batch.reader.*;
 import org.example.batch.writer.*;
 import org.example.pojo.ClntPriceCapPO;
 import org.example.pojo.InstrumentVoucherPO;
+import org.example.pojo.InterestDailyPO;
 import org.example.pojo.PortfoliofeeDailyPO;
 import org.example.pojo.dtos.*;
 import org.springframework.batch.core.Job;
@@ -121,35 +122,35 @@ public class BatchConfig {
     }
 
     //=========== ClntPriceCap ============
-//    @Autowired
-//    private ClntPriceCapProcessor clntPriceCapProcessor;
-//
-//    @Autowired
-//    private ClntPriceCapReader clntPriceCapReader;
-//
-//    @Autowired
-//    private ClntPriceCapWriter clntPriceCapWriter;
-//
-//    @Bean
-//    public Step clntPriceCapMigrationStep(){
-//        return stepBuilderFactory.get("clntPriceCapMigrationStep")
-//                .<ClntPriceCapPO, ClntPriceCapResultDTO>chunk(1000)
-//                .reader(clntPriceCapReader)
-//                .processor(clntPriceCapProcessor)
-//                .writer(clntPriceCapWriter)
-//                .faultTolerant()
-//                .skipLimit(3)
-//                .skip(Exception.class)
-//                .build();
-//    }
-//
-//    @Bean
-//    public Job clntPriceCapMigrationJob(){
-//        return jobBuilderFactory.get("clntPriceCapMigrationJob")
-//                .incrementer(new RunIdIncrementer())
-//                .start(clntPriceCapMigrationStep())
-//                .build();
-//    }
+    @Autowired
+    private ClntPriceCapProcessor clntPriceCapProcessor;
+
+    @Autowired
+    private ClntPriceCapReader clntPriceCapReader;
+
+    @Autowired
+    private ClntPriceCapWriter clntPriceCapWriter;
+
+    @Bean
+    public Step clntPriceCapMigrationStep(){
+        return stepBuilderFactory.get("clntPriceCapMigrationStep")
+                .<ClntPriceCapPO, ClntPriceCapResultDTO>chunk(1000)
+                .reader(clntPriceCapReader)
+                .processor(clntPriceCapProcessor)
+                .writer(clntPriceCapWriter)
+                .faultTolerant()
+                .skipLimit(3)
+                .skip(Exception.class)
+                .build();
+    }
+
+    @Bean
+    public Job clntPriceCapMigrationJob(){
+        return jobBuilderFactory.get("clntPriceCapMigrationJob")
+                .incrementer(new RunIdIncrementer())
+                .start(clntPriceCapMigrationStep())
+                .build();
+    }
 
     //=========== CashTransferAll ============
     @Autowired
@@ -184,37 +185,6 @@ public class BatchConfig {
 
     //=========== Brokerage ============
     @Autowired
-    private BrokerageProcessor brokerageProcessor;
-
-    @Autowired
-    private BrokerageReader brokerageReader;
-
-    @Autowired
-    private BrokerageWriter brokerageWriter;
-
-    @Bean
-    public Step brokerageMigrationStep(){
-        return stepBuilderFactory.get("brokerageMigrationStep")
-                .<BrokerageWithRageDTO, BrokerageWithRageResultDTO>chunk(1000)
-                .reader(brokerageReader)
-                .processor(brokerageProcessor)
-                .writer(brokerageWriter)
-                .faultTolerant()
-                .skipLimit(3)
-                .skip(Exception.class)
-                .build();
-    }
-
-    @Bean
-    public Job brokerageMigrationJob(){
-        return jobBuilderFactory.get("brokerageMigrationJob")
-                .incrementer(new RunIdIncrementer())
-                .start(brokerageMigrationStep())
-                .build();
-    }
-
-    //=========== CA Rights Split Consolidation ============
-    @Autowired
     private BrokerageWithRageProcessor brokerageWithRageProcessor;
 
     @Autowired
@@ -233,6 +203,9 @@ public class BatchConfig {
                 .faultTolerant()
                 .skipLimit(3)
                 .skip(Exception.class)
+//                .transactionAttribute(new DefaultTransactionAttribute(){{
+//                    setPropagationBehavior(PROPAGATION_NOT_SUPPORTED);
+//                }})//disable transaction
                 .build();
     }
 
@@ -241,6 +214,37 @@ public class BatchConfig {
         return jobBuilderFactory.get("brokerageWithRageMigrationJob")
                 .incrementer(new RunIdIncrementer())
                 .start(brokerageWithRageMigrationStep())
+                .build();
+    }
+
+    //=========== InterestDaily ============
+    @Autowired
+    private InterestDailyProcessor interestDailyProcessor;
+
+    @Autowired
+    private InterestDailyReader interestDailyReader;
+
+    @Autowired
+    private InterestDailyWriter interestDailyWriter;
+
+    @Bean
+    public Step interestDailyMigrationStep(){
+        return stepBuilderFactory.get("interestDailyMigrationStep")
+                .<InterestDailyPO, InterestDailyResultDTO>chunk(1000)
+                .reader(interestDailyReader)
+                .processor(interestDailyProcessor)
+                .writer(interestDailyWriter)
+                .faultTolerant()
+                .skipLimit(3)
+                .skip(Exception.class)
+                .build();
+    }
+
+    @Bean
+    public Job interestDailyMigrationJob(){
+        return jobBuilderFactory.get("interestDailyMigrationJob")
+                .incrementer(new RunIdIncrementer())
+                .start(interestDailyMigrationStep())
                 .build();
     }
 

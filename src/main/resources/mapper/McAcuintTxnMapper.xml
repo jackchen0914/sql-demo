@@ -2,4 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McAcuintTxnMapper">
 
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_ACUINT_TXN (ACUINT_TXN_ID, AC_ID, CMPNY_CDE, CCY_CDE, SEGR_FUND_ID, YEAR_MTH, FROM_DATE,
+            TO_DATE, POST_DATE, CR_ACUINT, DR_ACUINT, ADJ_CR_ACUINT, ADJ_DR_ACUINT, WAIVE_CR_ACUINT, WAIVE_DR_ACUINT,
+            IS_WAIVE_NEED_POST, LAST_CR_INTSCH_VID, LAST_DR_INTSCH_VID, FUND_TXN_ID, REV_FUND_TXN_ID,
+            ACUINT_TXN_STAT_CDE, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ, INTCY_TYP_CDE,
+            INTCY_FROM_DATE, INTCY_TO_DATE, REMRK, IS_ON_HOLD_POST, ADJ_DR_ACUINT_EXCL_PENAL, PENAL_ACUINT,
+            ADJ_PENAL_ACUINT, WAIVE_PENAL_ACUINT, ROVER_PENAL_ACUINT)
+            VALUES (#{item.acuintTxnId,jdbcType=BIGINT}, #{item.acId,jdbcType=VARCHAR},
+            #{item.cmpnyCde,jdbcType=VARCHAR}, #{item.ccyCde,jdbcType=VARCHAR}, #{item.segrFundId,jdbcType=BIGINT},
+            #{item.yearMth,jdbcType=TIMESTAMP}, #{item.fromDate,jdbcType=TIMESTAMP}, #{item.toDate,jdbcType=TIMESTAMP},
+            #{item.postDate,jdbcType=TIMESTAMP}, #{item.crAcuint,jdbcType=DECIMAL}, #{item.drAcuint,jdbcType=DECIMAL},
+            #{item.adjCrAcuint,jdbcType=DECIMAL}, #{item.adjDrAcuint,jdbcType=DECIMAL},
+            #{item.waiveCrAcuint,jdbcType=DECIMAL}, #{item.waiveDrAcuint,jdbcType=DECIMAL},
+            #{item.isWaiveNeedPost,jdbcType=VARCHAR}, #{item.lastCrIntschVid,jdbcType=BIGINT},
+            #{item.lastDrIntschVid,jdbcType=BIGINT}, #{item.fundTxnId,jdbcType=BIGINT},
+            #{item.revFundTxnId,jdbcType=BIGINT}, #{item.acuintTxnStatCde,jdbcType=VARCHAR},
+            #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT},
+            #{item.intcyTypCde,jdbcType=VARCHAR}, #{item.intcyFromDate,jdbcType=TIMESTAMP},
+            #{item.intcyToDate,jdbcType=TIMESTAMP}, #{item.remrk,jdbcType=VARCHAR},
+            #{item.isOnHoldPost,jdbcType=VARCHAR}, #{item.adjDrAcuintExclPenal,jdbcType=DECIMAL},
+            #{item.penalAcuint,jdbcType=DECIMAL}, #{item.adjPenalAcuint,jdbcType=DECIMAL},
+            #{item.waivePenalAcuint,jdbcType=DECIMAL}, #{item.roverPenalAcuint,jdbcType=DECIMAL})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
 </mapper>

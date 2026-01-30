@@ -2,4 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McAcuintTxnDtlMapper">
 
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_ACUINT_TXN_DTL (ACUINT_TXN_DTL_ID, ACUINT_TXN_ID, TXN_DATE, CR_ACUINT, DR_ACUINT, LEDG_BAL,
+            CAT1_DSCNT_VAL, CAT2_DSCNT_VAL, CAT3_DSCNT_VAL, MRGN_AGE, CR_INTSCH_VID, DR_INTSCH_VID, WAIVE_CR_ACUINT,
+            WAIVE_DR_ACUINT, INTWV_MTD_CDE, ACUINT_TXN_DTL_STAT_CDE, ACUINT_TXN_TYP_CDE, REC_VER_NUM, INIT_TIME,
+            LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ, NORMAL_OD_BAL, PENAL_ACUINT, WAIVE_PENAL_ACUINT, INTSCH_ASGN_RULE_CDE,
+            TTL_SEGR_FUND_DV, TTL_SAME_CCY_DV, ALOC_SAME_CCY_SEQ_NUM, ALOC_SAME_CCY_DV, UNCO_OD_BY_SAME_CCY, REMN_DV,
+            EXCH_RATE_TO_BASE_CCY, BASE_CCY_REMN_DV, BASE_CCY_TTL_CRS_CCY_DV, ALOC_CRS_CCY_SEQ_NUM,
+            BASE_CCY_ALOC_CRS_CCY_DV, EXCH_RATE_FROM_BASE_CCY, ALOC_CRS_CCY_DV)
+            VALUES (#{item.acuintTxnDtlId,jdbcType=BIGINT}, #{item.acuintTxnId,jdbcType=BIGINT},
+            #{item.txnDate,jdbcType=TIMESTAMP}, #{item.crAcuint,jdbcType=DECIMAL}, #{item.drAcuint,jdbcType=DECIMAL},
+            #{item.ledgBal,jdbcType=DECIMAL}, #{item.cat1DscntVal,jdbcType=DECIMAL},
+            #{item.cat2DscntVal,jdbcType=DECIMAL}, #{item.cat3DscntVal,jdbcType=DECIMAL},
+            #{item.mrgnAge,jdbcType=DECIMAL}, #{item.crIntschVid,jdbcType=BIGINT}, #{item.drIntschVid,jdbcType=BIGINT},
+            #{item.waiveCrAcuint,jdbcType=DECIMAL}, #{item.waiveDrAcuint,jdbcType=DECIMAL},
+            #{item.intwvMtdCde,jdbcType=VARCHAR}, #{item.acuintTxnDtlStatCde,jdbcType=VARCHAR},
+            #{item.acuintTxnTypCde,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT}, #{item.normalOdBal,jdbcType=DECIMAL},
+            #{item.penalAcuint,jdbcType=DECIMAL}, #{item.waivePenalAcuint,jdbcType=DECIMAL},
+            #{item.intschAsgnRuleCde,jdbcType=VARCHAR}, #{item.ttlSegrFundDv,jdbcType=DECIMAL},
+            #{item.ttlSameCcyDv,jdbcType=DECIMAL}, #{item.alocSameCcySeqNum,jdbcType=BIGINT},
+            #{item.alocSameCcyDv,jdbcType=DECIMAL}, #{item.uncoOdBySameCcy,jdbcType=DECIMAL},
+            #{item.remnDv,jdbcType=DECIMAL}, #{item.exchRateToBaseCcy,jdbcType=DECIMAL},
+            #{item.baseCcyRemnDv,jdbcType=DECIMAL}, #{item.baseCcyTtlCrsCcyDv,jdbcType=DECIMAL},
+            #{item.alocCrsCcySeqNum,jdbcType=BIGINT}, #{item.baseCcyAlocCrsCcyDv,jdbcType=DECIMAL},
+            #{item.exchRateFromBaseCcy,jdbcType=DECIMAL}, #{item.alocCrsCcyDv,jdbcType=DECIMAL})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
 </mapper>

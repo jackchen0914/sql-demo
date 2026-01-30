@@ -18,7 +18,6 @@ spring:
         max-lifetime: 1800000
       datasource:
         master:
-          key: master
           driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
           url: jdbc:sqlserver://10.5.80.179:1433;databaseName=OctOBackFT_1231;encrypt=true;trustServerCertificate=true
           username: pleung
@@ -27,7 +26,6 @@ spring:
             maximum-pool-size: 15
             minimum-idle: 5
         oracle:
-          key: oracle
           driver-class-name: oracle.jdbc.OracleDriver
 #          url: jdbc:oracle:thin:@10.11.198.16:1721:MSEUZ
           url: jdbc:oracle:thin:@//10.11.198.16:1721/MSEUZ

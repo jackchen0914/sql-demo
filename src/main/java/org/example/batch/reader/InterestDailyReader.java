@@ -3,13 +3,19 @@ package org.example.batch.reader;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.extern.slf4j.Slf4j;
 import org.example.mapper.ClntPriceCapMapper;
+import org.example.mapper.ForexRateMapper;
 import org.example.mapper.InterestDailyMapper;
 import org.example.pojo.ClntPriceCapPO;
+import org.example.pojo.ForexRatePO;
+import org.example.pojo.GlobalSettingsPO;
 import org.example.pojo.InterestDailyPO;
+import org.example.pojo.dtos.BrokerageWithRageDTO;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,6 +28,9 @@ public class InterestDailyReader implements ItemReader<InterestDailyPO> {
 
     @Autowired
     private InterestDailyMapper interestDailyMapper;
+
+    @Autowired
+    private ForexRateMapper forexRateMapper;
 
     private List<InterestDailyPO> currentBatch;
     private final AtomicInteger currentIndex = new AtomicInteger(0);
@@ -44,7 +53,14 @@ public class InterestDailyReader implements ItemReader<InterestDailyPO> {
 
         int index = currentIndex.getAndIncrement();
         if (index < currentBatch.size()) {
-            return currentBatch.get(index);
+            InterestDailyPO interestDailyPO = currentBatch.get(index);
+                ForexRatePO ratePO = forexRateMapper.selectRateByDate(interestDailyPO.getCcy(), String.valueOf(interestDailyPO.getDate()).replaceAll("T"," "));
+                if(ratePO!=null) {
+                    interestDailyPO.setRateFromBaseCcy(ratePO.getXRate() != null ? BigDecimal.ONE.divide(ratePO.getXRate(), 4, RoundingMode.HALF_UP) : BigDecimal.ZERO);
+                    interestDailyPO.setRateToBaseCcy(ratePO.getXRate() != null ? ratePO.getXRate() : BigDecimal.ZERO);
+                }
+            return interestDailyPO;
+//            return currentBatch.get(index);
         }
         return null;
     }
@@ -70,7 +86,6 @@ public class InterestDailyReader implements ItemReader<InterestDailyPO> {
         currentPage.set(0);
         finished = false;
     }
-
 
 }
 

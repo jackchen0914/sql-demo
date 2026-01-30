@@ -28,24 +28,24 @@ public class BatchJobController {
         return batchJobService.startInstrumentVoucherMigration();
     }
 
-//    @GetMapping("/clntPriceCap")
-//    public String startClntPriceCapMigration(){
-//        return batchJobService.startClntPriceCapMigration();
-//    }
+    @GetMapping("/clntPriceCap")
+    public String startClntPriceCapMigration(){
+        return batchJobService.startClntPriceCapMigration();
+    }
 
     @GetMapping("/cashTransferAll")
     public String startCashTransferAllMigration(){
         return batchJobService.startCashTransferAllMigration();
     }
 
-    @GetMapping("/brokerage")
-    public String startBrokerageMigration(){
-        return batchJobService.startBrokerageMigration();
-    }
-
     @GetMapping("/brokerageWithRage")
     public String startBrokerageWithRageMigration(){
         return batchJobService.startBrokerageWithRageMigration();
+    }
+
+    @GetMapping("/interestDaily")
+    public String startInterestDailyMigration(){
+        return batchJobService.startInterestDailyMigration();
     }
 
     @GetMapping("/full")
