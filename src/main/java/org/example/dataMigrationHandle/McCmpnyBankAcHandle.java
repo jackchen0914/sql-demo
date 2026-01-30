@@ -28,7 +28,7 @@ public class McCmpnyBankAcHandle {
 
     public void writeProcessedData() {
         List<CashVoucherPO> cashVoucherPOS = cashVoucherMapper.selectList(null);
-        log.info("---->{}",cashVoucherPOS);
+        log.info("test---->{}",cashVoucherPOS);
 //        List<McCmpnyBankAcPO> dataList = new ArrayList<>();
 //        for (int i = 0; i < cashVoucherPOS.size(); i++) {
 //            CashVoucherPO po = cashVoucherPOS.get(i);
