@@ -123,4 +123,11 @@ public class CashVoucherWithRequestDTO implements Serializable {
 
     private String withdrawMode;
 
+    private String benfName;
+
+    private String txnTypActnCdeValue;
+    private Long txnTypIdValue;
+    private BigDecimal baseCcyEquAmtValue;
+    private Integer index;
+
 }

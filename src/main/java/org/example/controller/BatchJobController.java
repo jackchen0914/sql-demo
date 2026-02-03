@@ -48,6 +48,11 @@ public class BatchJobController {
         return batchJobService.startInterestDailyMigration();
     }
 
+    @GetMapping("/cashVoucher")
+    public String startCashVoucherMigration(){
+        return batchJobService.startCashVoucherMigration();
+    }
+
     @GetMapping("/full")
     public String migrateAll(){
         return batchJobService.runFullMigration();

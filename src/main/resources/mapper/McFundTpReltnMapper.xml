@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McFundTpReltnMapper">
 
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_FUND_TP_RELTN (FUND_TP_RELTN_CDE, FUND_TP_RELTN_DSCR, FUND_TP_RELTN_PRI, IS_INACT,
+            REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.fundTpReltnCde,jdbcType=VARCHAR}, #{item.fundTpReltnDscr,jdbcType=VARCHAR},
+            #{item.fundTpReltnPri,jdbcType=BIGINT}, #{item.isInact,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
 </mapper>

@@ -15,14 +15,14 @@ import java.util.List;
 @Slf4j
 public class Test {
 
-    @Autowired
-    private CashVoucherMapper cashVoucherMapper;
-
-    @org.junit.jupiter.api.Test
-    public void test(){
-        List<CashVoucherPO> cashVoucherPOS = cashVoucherMapper.selectAll();
-        log.info("===>{}",cashVoucherPOS);
-    }
+//    @Autowired
+//    private CashVoucherMapper cashVoucherMapper;
+//
+//    @org.junit.jupiter.api.Test
+//    public void test(){
+//        List<CashVoucherPO> cashVoucherPOS = cashVoucherMapper.selectAll();
+//        log.info("===>{}",cashVoucherPOS);
+//    }
 
 //    @Autowired
 //    private ClntMapper clntMapper;

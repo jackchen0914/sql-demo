@@ -55,6 +55,7 @@ public class CashTransferAllProcessor implements ItemProcessor<CashTransferAllDT
         mcAcOnlineFxReqPO.setToSegrFundId(1L);
         mcAcOnlineFxReqPO.setToCcyCde(PropertyConverUtils.standardizeCurrencyCode(items.getCCYTo()));
         mcAcOnlineFxReqPO.setToAmt(items.getAmountTo());
+        mcAcOnlineFxReqPO.setValDate(items.getTransferDate());
         mcAcOnlineFxReqPO.setExchRate(items.getFXRate());
 
         mcAcOnlineFxReqPO.setAprvCmpnyIbusdate(Objects.equals(items.getStatus(), "APP") ? items.getApprovalTimeFrom() : null);

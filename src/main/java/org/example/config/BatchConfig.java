@@ -248,6 +248,37 @@ public class BatchConfig {
                 .build();
     }
 
+    //=========== CashVoucher ============
+    @Autowired
+    private CashVoucherProcessor cashVoucherProcessor;
+
+    @Autowired
+    private CashVoucherReader cashVoucherReader;
+
+    @Autowired
+    private CashVoucherWriter cashVoucherWriter;
+
+    @Bean
+    public Step cashVoucherMigrationStep(){
+        return stepBuilderFactory.get("cashVoucherMigrationStep")
+                .<CashVoucherWithRequestDTO, CashVoucherResultDTO>chunk(1000)
+                .reader(cashVoucherReader)
+                .processor(cashVoucherProcessor)
+                .writer(cashVoucherWriter)
+                .faultTolerant()
+                .skipLimit(3)
+                .skip(Exception.class)
+                .build();
+    }
+
+    @Bean
+    public Job cashVoucherMigrationJob(){
+        return jobBuilderFactory.get("cashVoucherMigrationStep")
+                .incrementer(new RunIdIncrementer())
+                .start(cashVoucherMigrationStep())
+                .build();
+    }
+
     //=========== Full Migration Job ============
     @Bean
     public Job fullMigrationJob(){

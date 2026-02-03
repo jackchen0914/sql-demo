@@ -26,11 +26,9 @@ public interface CashVoucherMapper extends BaseMapper<CashVoucherPO> {
            "FROM dbo.CashVoucher")
    List<CashVoucherPO> selectTop5();
 
-   //select ClntCode,Name from dbo._Clnt order by ClntCode OFFSET 0 ROWS FETCH NEXT 1000 ROW ONLY;
-   @Select("SELECT VoucherNo, VoucherDate, ConfirmationDate, ReferenceNo, Clnt, ClntAcctType, Market, BankNo, Amount, CCY, Comment, Userid, Status, [TimeStamp], Charge, ValueDate, TxnType, PrintChq, CancelDate, ChequeNo, ChequeDate, ManualInput, Remark, GLCode, BankGLCode, AuthorizedUserID1, AuthorizedUserID2, SendOutUserID, CancelSendOutUserID, VerifiedStatus, StatusFlag, [Source], Reason, BatchNo, ExportTime, ExportCount, BankAccount, AccountName, AccountNumber, AccountAddress, AccountContactNo, AccountMobileNo, ChargeChannel, BankVRemark, PaymentPurposeDetail, InputDate, VoucherType, UserIDTime, Approver, ApprovalTime, SPISource, SPIBankAccount\n" +
-           "FROM dbo.CashVoucher order by VoucherNo OFFSET 0 ROWS FETCH NEXT 1000 ROW ONLY")
-   List<CashVoucherPO> selectAll();
+   @Select("select InputDate,Clnt ,CCY ,TxnType ,VoucherNo ,Amount ,ValueDate ,StatusFlag ,ManualInput ,VoucherDate ,Userid ,Remark ,[Source] ,AccountName ,AccountNumber ,Status ,Charge ,CancelDate ,ConfirmationDate ,ApprovalTime ,Market  from CashVoucher where SUBSTRING(StatusFlag ,8,1) = 'Y' order by VoucherNo,Market OFFSET #{offset} ROWS FETCH NEXT #{limit} ROW ONLY")
+   List<CashVoucherPO> selectByPage(@Param("offset") int offset, @Param("limit") int limit);
 
-   List<CashVoucherWithRequestDTO> selectCashVoucherWithRequest();
+   List<CashVoucherWithRequestDTO> selectCashVoucherWithRequest(@Param("offset") int offset, @Param("limit") int limit);
 
 }

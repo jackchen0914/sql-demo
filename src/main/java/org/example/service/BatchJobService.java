@@ -170,6 +170,28 @@ public class BatchJobService{
         }
     }
 
+    //=========== CashVoucher ============
+    @Autowired
+    @Qualifier("cashVoucherMigrationJob")
+    private Job cashVoucherMigrationJob;
+
+    @Autowired
+    private CashVoucherReader cashVoucherReader;
+
+    public String startCashVoucherMigration(){
+        try {
+            cashVoucherReader.reset();
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("timestamp",System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(cashVoucherMigrationJob, jobParameters);
+            return "successfully";
+        } catch (Exception e) {
+            log.error("error",e);
+            return "error: " + e.getMessage();
+        }
+    }
+
     //=========== Full Migration ============
     @Autowired
     @Qualifier("fullMigrationJob")
