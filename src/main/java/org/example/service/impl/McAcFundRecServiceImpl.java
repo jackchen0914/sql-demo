@@ -49,99 +49,99 @@ public class McAcFundRecServiceImpl extends ServiceImpl<McAcFundRecMapper, McAcF
     public void writeProcessedData() throws InterruptedException {
 //        List<CashVoucherPO> cashVoucherPOS = cashVoucherMapper.selectTop5();
 //        log.info("---->{}", cashVoucherPOS);
-        List<CashVoucherWithRequestDTO> cashVoucherWithRequestDTOS = cashVoucherMapper.selectCashVoucherWithRequest();
-        List<McAcFundRecPO> fundRecDataList = new ArrayList<>();
-        List<McAcFundTxnRecPO> fundTxnDataList = new ArrayList<>();
-        for (int i = 0; i < cashVoucherWithRequestDTOS.size(); i++) {
-            CashVoucherWithRequestDTO po = cashVoucherWithRequestDTOS.get(i);
-            McAcFundRecPO mcAcFundRecPO = new McAcFundRecPO();
-            McAcFundTxnRecPO mcAcFundTxnRecPO = new McAcFundTxnRecPO();
-            mcAcFundTxnRecPO.setAcFundTxnRid((long) (16000000+i));
-            mcAcFundTxnRecPO.setFundStatCde(fundStatCdeTrans(po.getStatus()));
-            mcAcFundTxnRecPO.setIsRev("N");
-            mcAcFundTxnRecPO.setRevAcFundTxnRid(null);
-            mcAcFundTxnRecPO.setRecVerNum(0L);
-            mcAcFundTxnRecPO.setInitTime(LocalDateTime.now());
-            mcAcFundTxnRecPO.setLastUpdTime(LocalDateTime.now());
-            mcAcFundTxnRecPO.setLastUpdBy("MIG");
-            mcAcFundTxnRecPO.setTagSeq(0L);
-
-            mcAcFundRecPO.setAcFundRid((long) (18000000 + i));
-            mcAcFundRecPO.setCmpnyIbusdate(po.getVoucherDate());
-            mcAcFundRecPO.setCmpnyBusdate(po.getVoucherDate());
-//            mcAcFundRecPO.setMrktIbusdate(null);
-//            mcAcFundRecPO.setMrktBusdate(null);
-//            mcAcFundRecPO.setAcId(po.getClnt());
-            mcAcFundRecPO.setAcId("02-0000389-30");
-            mcAcFundRecPO.setCcyCde(currencyTrans(po.getCcy(), po));
-            mcAcFundRecPO.setSegrFundId(1L);
-            mcAcFundRecPO.setCmpnyCde("TFS");
-//            mcAcFundRecPO.setTxnTypId(po.getTxnType()); //待确定
-            mcAcFundRecPO.setTxnTypId(txnTypIdConvert(po.getTxnType()));
-            mcAcFundRecPO.setValDate(po.getValueDate());
-            mcAcFundRecPO.setAmt(po.getAmount().abs());
-            mcAcFundRecPO.setIsNonAcHldr("N");
-            mcAcFundRecPO.setRemrk(po.getRemark());
-            mcAcFundRecPO.setBankCde(po.getSource());
-            mcAcFundRecPO.setPayeNam(po.getAccountName());
-//            mcAcFundRecPO.setOthAcPayeNam(); //CashVoucherRequest.BenfName 待确定
-            mcAcFundRecPO.setClntBankCde(po.getSource());
-            mcAcFundRecPO.setClntBankAcNum(po.getAccountNumber());
-            mcAcFundRecPO.setIsPrtRcpt("N");
-//            mcAcFundRecPO.setCmpnyBankAcId(po.getTxnType());
-            mcAcFundRecPO.setFundStatCde(fundStatCdeTrans(po.getStatus()));
-            mcAcFundRecPO.setFundChnlCde(Objects.equals(po.getManualInput(), "Yes") ? "MANUALINP" : "SYSTEM");
-            mcAcFundRecPO.setTxnTypActnCde(txnTypActnCdeTrans(po.getTxnType()));
-            mcAcFundRecPO.setIsMemo("N");
-            mcAcFundRecPO.setIsChq(isChqAndIsTrnfrTrans(po,"chq"));
-            mcAcFundRecPO.setIsChrg(po.getCharge().contains("YES") ? "Y" : "N");
-            mcAcFundRecPO.setIsTrnfr(isChqAndIsTrnfrTrans(po,"trnfr"));
-            mcAcFundRecPO.setIsRev(isRevTrans(po));
-            mcAcFundRecPO.setIsDhon("N");
-            mcAcFundRecPO.setIsRtun("N");
-            mcAcFundRecPO.setIsUnderRevrse("N");
-            mcAcFundRecPO.setIsUnderDhon("N");
-            mcAcFundRecPO.setIsUnderRtun("N");
-            mcAcFundRecPO.setIsTodayRev(isTodayRevTrans(po));
-            mcAcFundRecPO.setIsTrigCreat("N");
-            mcAcFundRecPO.setPrimyRemrkFrStmt(po.getRemark());
-            mcAcFundRecPO.setBaseCcyEquAmt(calculateAmountProcess(po));
-            mcAcFundRecPO.setIsAutoAprv("N"); //有条件约束  不能相同
-            mcAcFundRecPO.setIsIgnrDatSync("N");
-            mcAcFundRecPO.setRvisUnit("0031");
-            mcAcFundRecPO.setRvisBy("MIG");
-            mcAcFundRecPO.setLastRvisTime(LocalDateTime.now());
-            mcAcFundRecPO.setChkBy("MIG");
-            mcAcFundRecPO.setAprvRejCmpnyIbusdate(po.getApprovalTime());
-            mcAcFundRecPO.setAprvRejCmpnyBusdate(po.getApprovalTime());
-            mcAcFundRecPO.setAprvRejTime(po.getApprovalTime());
-            mcAcFundRecPO.setIsElectronic("N");
-            mcAcFundRecPO.setIsWork("N");
-            mcAcFundRecPO.setAcFundTxnRid((long) (16000000+i));
-            mcAcFundRecPO.setIsOperateInFund("N");
-            mcAcFundRecPO.setIsInstrRelt("N");
-            mcAcFundRecPO.setIsPost("N");
-            mcAcFundRecPO.setRecVerNum(0L);
-            mcAcFundRecPO.setInitTime(LocalDateTime.now());
-            mcAcFundRecPO.setLastUpdTime(LocalDateTime.now());
-            mcAcFundRecPO.setLastUpdBy("MIG");
-            mcAcFundRecPO.setTagSeq(0L);
-            mcAcFundRecPO.setExtrnlRefNum(po.getMarket()+po.getVoucherNo());
-            mcAcFundRecPO.setExtrnlSysCde("OctOBack");
-            mcAcFundRecPO.setInitUser("MIG");
-//            mcAcFundRecPO.setInitUserUnit("0001");
-            mcAcFundRecPO.setInitUserUnit("0031");
-            mcAcFundRecPO.setIsReact("N");
-            mcAcFundRecPO.setIsUnderReact("N");
-            mcAcFundRecPO.setIsNonRegBankAc("N");
-            mcAcFundRecPO.setFundTpReltnCde(po.getRelationship());
-
-            fundRecDataList.add(mcAcFundRecPO);
-            fundTxnDataList.add(mcAcFundTxnRecPO);
-        }
-        saveToOracleMcAcFundTxn(fundTxnDataList);
-//        Thread.sleep(5000);
-        saveToOracleMcAcFundRec(fundRecDataList);
+//        List<CashVoucherWithRequestDTO> cashVoucherWithRequestDTOS = cashVoucherMapper.selectCashVoucherWithRequest();
+//        List<McAcFundRecPO> fundRecDataList = new ArrayList<>();
+//        List<McAcFundTxnRecPO> fundTxnDataList = new ArrayList<>();
+//        for (int i = 0; i < cashVoucherWithRequestDTOS.size(); i++) {
+//            CashVoucherWithRequestDTO po = cashVoucherWithRequestDTOS.get(i);
+//            McAcFundRecPO mcAcFundRecPO = new McAcFundRecPO();
+//            McAcFundTxnRecPO mcAcFundTxnRecPO = new McAcFundTxnRecPO();
+//            mcAcFundTxnRecPO.setAcFundTxnRid((long) (16000000+i));
+//            mcAcFundTxnRecPO.setFundStatCde(fundStatCdeTrans(po.getStatus()));
+//            mcAcFundTxnRecPO.setIsRev("N");
+//            mcAcFundTxnRecPO.setRevAcFundTxnRid(null);
+//            mcAcFundTxnRecPO.setRecVerNum(0L);
+//            mcAcFundTxnRecPO.setInitTime(LocalDateTime.now());
+//            mcAcFundTxnRecPO.setLastUpdTime(LocalDateTime.now());
+//            mcAcFundTxnRecPO.setLastUpdBy("MIG");
+//            mcAcFundTxnRecPO.setTagSeq(0L);
+//
+//            mcAcFundRecPO.setAcFundRid((long) (18000000 + i));
+//            mcAcFundRecPO.setCmpnyIbusdate(po.getVoucherDate());
+//            mcAcFundRecPO.setCmpnyBusdate(po.getVoucherDate());
+////            mcAcFundRecPO.setMrktIbusdate(null);
+////            mcAcFundRecPO.setMrktBusdate(null);
+////            mcAcFundRecPO.setAcId(po.getClnt());
+//            mcAcFundRecPO.setAcId("02-0000389-30");
+//            mcAcFundRecPO.setCcyCde(currencyTrans(po.getCcy(), po));
+//            mcAcFundRecPO.setSegrFundId(1L);
+//            mcAcFundRecPO.setCmpnyCde("TFS");
+////            mcAcFundRecPO.setTxnTypId(po.getTxnType()); //待确定
+//            mcAcFundRecPO.setTxnTypId(txnTypIdConvert(po.getTxnType()));
+//            mcAcFundRecPO.setValDate(po.getValueDate());
+//            mcAcFundRecPO.setAmt(po.getAmount().abs());
+//            mcAcFundRecPO.setIsNonAcHldr("N");
+//            mcAcFundRecPO.setRemrk(po.getRemark());
+//            mcAcFundRecPO.setBankCde(po.getSource());
+//            mcAcFundRecPO.setPayeNam(po.getAccountName());
+////            mcAcFundRecPO.setOthAcPayeNam(); //CashVoucherRequest.BenfName 待确定
+//            mcAcFundRecPO.setClntBankCde(po.getSource());
+//            mcAcFundRecPO.setClntBankAcNum(po.getAccountNumber());
+//            mcAcFundRecPO.setIsPrtRcpt("N");
+////            mcAcFundRecPO.setCmpnyBankAcId(po.getTxnType());
+//            mcAcFundRecPO.setFundStatCde(fundStatCdeTrans(po.getStatus()));
+//            mcAcFundRecPO.setFundChnlCde(Objects.equals(po.getManualInput(), "Yes") ? "MANUALINP" : "SYSTEM");
+//            mcAcFundRecPO.setTxnTypActnCde(txnTypActnCdeTrans(po.getTxnType()));
+//            mcAcFundRecPO.setIsMemo("N");
+//            mcAcFundRecPO.setIsChq(isChqAndIsTrnfrTrans(po,"chq"));
+//            mcAcFundRecPO.setIsChrg(po.getCharge().contains("YES") ? "Y" : "N");
+//            mcAcFundRecPO.setIsTrnfr(isChqAndIsTrnfrTrans(po,"trnfr"));
+//            mcAcFundRecPO.setIsRev(isRevTrans(po));
+//            mcAcFundRecPO.setIsDhon("N");
+//            mcAcFundRecPO.setIsRtun("N");
+//            mcAcFundRecPO.setIsUnderRevrse("N");
+//            mcAcFundRecPO.setIsUnderDhon("N");
+//            mcAcFundRecPO.setIsUnderRtun("N");
+//            mcAcFundRecPO.setIsTodayRev(isTodayRevTrans(po));
+//            mcAcFundRecPO.setIsTrigCreat("N");
+//            mcAcFundRecPO.setPrimyRemrkFrStmt(po.getRemark());
+//            mcAcFundRecPO.setBaseCcyEquAmt(calculateAmountProcess(po));
+//            mcAcFundRecPO.setIsAutoAprv("N"); //有条件约束  不能相同
+//            mcAcFundRecPO.setIsIgnrDatSync("N");
+//            mcAcFundRecPO.setRvisUnit("0031");
+//            mcAcFundRecPO.setRvisBy("MIG");
+//            mcAcFundRecPO.setLastRvisTime(LocalDateTime.now());
+//            mcAcFundRecPO.setChkBy("MIG");
+//            mcAcFundRecPO.setAprvRejCmpnyIbusdate(po.getApprovalTime());
+//            mcAcFundRecPO.setAprvRejCmpnyBusdate(po.getApprovalTime());
+//            mcAcFundRecPO.setAprvRejTime(po.getApprovalTime());
+//            mcAcFundRecPO.setIsElectronic("N");
+//            mcAcFundRecPO.setIsWork("N");
+//            mcAcFundRecPO.setAcFundTxnRid((long) (16000000+i));
+//            mcAcFundRecPO.setIsOperateInFund("N");
+//            mcAcFundRecPO.setIsInstrRelt("N");
+//            mcAcFundRecPO.setIsPost("N");
+//            mcAcFundRecPO.setRecVerNum(0L);
+//            mcAcFundRecPO.setInitTime(LocalDateTime.now());
+//            mcAcFundRecPO.setLastUpdTime(LocalDateTime.now());
+//            mcAcFundRecPO.setLastUpdBy("MIG");
+//            mcAcFundRecPO.setTagSeq(0L);
+//            mcAcFundRecPO.setExtrnlRefNum(po.getMarket()+po.getVoucherNo());
+//            mcAcFundRecPO.setExtrnlSysCde("OctOBack");
+//            mcAcFundRecPO.setInitUser("MIG");
+////            mcAcFundRecPO.setInitUserUnit("0001");
+//            mcAcFundRecPO.setInitUserUnit("0031");
+//            mcAcFundRecPO.setIsReact("N");
+//            mcAcFundRecPO.setIsUnderReact("N");
+//            mcAcFundRecPO.setIsNonRegBankAc("N");
+//            mcAcFundRecPO.setFundTpReltnCde(po.getRelationship());
+//
+//            fundRecDataList.add(mcAcFundRecPO);
+//            fundTxnDataList.add(mcAcFundTxnRecPO);
+//        }
+//        saveToOracleMcAcFundTxn(fundTxnDataList);
+////        Thread.sleep(5000);
+//        saveToOracleMcAcFundRec(fundRecDataList);
     }
 
     private Long txnTypIdConvert(String code) {

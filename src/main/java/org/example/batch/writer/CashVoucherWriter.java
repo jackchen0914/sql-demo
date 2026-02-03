@@ -43,8 +43,7 @@ public class CashVoucherWriter implements ItemWriter<CashVoucherResultDTO> {
             DataBaseOperationUtils.addIfNotNull(mcAcFundTxnRecPORecord,dto.getMcAcFundTxnRecRecord());
             DataBaseOperationUtils.addIfNotNull(mcFundTpReltnPORecord,dto.getMcFundTpReltnPRecord());
         }
-        log.info("{}条现金凭证记录待插入数据库",mcFundTpReltnPORecord);
-        log.info("{}条现金凭证记录待插入数据库2",mcFundTpReltnPORecord.size());
+
         DataBaseOperationUtils.batchInsertFrom(mcAcFundTxnRecPORecord,mcAcFundTxnRecMapper::batchInsert,BATCH_SIZE);
         DataBaseOperationUtils.batchInsertFrom(mcAcFundRecPORecord,mcAcFundRecMapper::batchInsert,BATCH_SIZE);
         DataBaseOperationUtils.batchInsertFrom(mcFundTpReltnPORecord,mcFundTpReltnMapper::batchInsert,BATCH_SIZE);

@@ -124,9 +124,8 @@ public class CashVoucherProcessor implements ItemProcessor<CashVoucherWithReques
         mcAcFundRecPO.setIsNonRegBankAc("N");
         mcAcFundRecPO.setFundTpReltnCde(items.getRelationship());
 
-        log.info("index value:{} " , items.getIndex());
-        mcFundTpReltnPO.setFundTpReltnCde(Objects.equals(items.getRelationship(), " ") || items.getRelationship() == null  ? ""+items.getIndex() : items.getRelationship());
-        mcFundTpReltnPO.setFundTpReltnDscr(Objects.equals(items.getRelationship(), " ") || items.getRelationship() == null ? ""+items.getIndex() : items.getRelationship());
+        mcFundTpReltnPO.setFundTpReltnCde(Objects.equals(items.getRelationship(), "") || items.getRelationship() == null  ? ""+items.getIndex() : items.getRelationship());
+        mcFundTpReltnPO.setFundTpReltnDscr(Objects.equals(items.getRelationship(), "") || items.getRelationship() == null ? ""+items.getIndex() : items.getRelationship());
         mcFundTpReltnPO.setFundTpReltnPri((long) (17 + items.getIndex()));
         mcFundTpReltnPO.setIsInact("N");
         mcFundTpReltnPO.setRecVerNum(0L);
