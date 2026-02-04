@@ -6,12 +6,12 @@
     <insert id="batchInsert" parameterType="java.util.List">
         INSERT ALL
         <foreach collection="list" item="item">
-            INTO MSSAPP.MC_STK_TXN (CEVENT_ID, NEW_INSTR_ID, SHAR_RATIO_INIT, SHAR_RATIO_TO, EFF_DATE, CONV_DATE,
-            IS_CCASS_STK, AC_HOLD_STK_TXN_ID)
-            VALUES (#{item.ceventId,jdbcType=BIGINT}, #{item.newInstrId,jdbcType=BIGINT},
-            #{item.sharRatioInit,jdbcType=DECIMAL}, #{item.sharRatioTo,jdbcType=DECIMAL},
-            #{item.effDate,jdbcType=TIMESTAMP}, #{item.convDate,jdbcType=TIMESTAMP},
-            #{item.isCcassStk,jdbcType=VARCHAR}, #{item.acHoldStkTxnId,jdbcType=BIGINT})
+            INTO MSSAPP.MC_STK_TXN (STK_TXN_ID, REV_STK_TXN_ID, STK_APRV_STAT_CDE, IS_REV, IS_AWAITING, REC_VER_NUM,
+            INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.stkTxnId,jdbcType=BIGINT}, #{item.revStkTxnId,jdbcType=BIGINT},
+            #{item.stkAprvStatCde,jdbcType=VARCHAR}, #{item.isRev,jdbcType=VARCHAR},
+            #{item.isAwaiting,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
         </foreach>
         SELECT 1 FROM DUAL
     </insert>

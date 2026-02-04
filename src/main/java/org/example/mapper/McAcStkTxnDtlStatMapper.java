@@ -3,6 +3,7 @@ package org.example.mapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.pojo.McAcStkTxnDtlStatPO;
 
 import java.util.List;
@@ -19,5 +20,5 @@ import java.util.List;
 @DS("oracle")
 public interface McAcStkTxnDtlStatMapper extends BaseMapper<McAcStkTxnDtlStatPO> {
 
-    void batchInsert(List<McAcStkTxnDtlStatPO> mcAcStkTxnDtlStatPOS);
+    int batchInsert(@Param("list") List<McAcStkTxnDtlStatPO> mcAcStkTxnDtlStatPOS);
 }

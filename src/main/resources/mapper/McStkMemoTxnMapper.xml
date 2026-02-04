@@ -2,8 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McStkMemoTxnMapper">
 
-    <insert id="batchInsert">
-
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_STK_MEMO_TXN (STK_MEMO_TXN_ID, CMPNY_CDE, TXN_TYP_ID, TXN_TYP_ACTN_CDE, TXN_REF_NUM,
+            VAL_DATE, REMRK, PRIMY_REMRK_FR_STMT, STK_REQ_STAT_CDE, STK_CHNL_CDE, CREAT_BY, CREAT_MRKT_BUSDATE,
+            CREAT_INPT_DATE, LAST_SUBMITTED_BY, LAST_SUBMITTED_MRKT_BUSDATE, LAST_SUBMITTED_INPT_DATE,
+            LAST_SUBMITTED_TIME, LAST_RTUN_BY, LAST_RTUN_MRKT_BUSDATE, LAST_RTUN_INPT_DATE, LAST_RTUN_TIME,
+            LAST_RTUN_REASN, LAST_IN_PROGRESS_BY, LAST_IN_PROGRESS_MRKT_BUSDATE, LAST_IN_PROGRESS_TIME,
+            LAST_IN_PROGRESS_INPT_DATE, LAST_ON_HAND_BY, LAST_ON_HAND_MRKT_BUSDATE, LAST_ON_HAND_INPT_DATE,
+            LAST_ON_HAND_TIME, ACT_ON_HAND_INPT_DATE, APRV_REJECT_DEL_BY, APRV_REJECT_DEL_MRKT_BUSDATE,
+            APRV_REJECT_DEL_INPT_DATE, APRV_REJECT_DEL_TIME, REV_BY, REV_MRKT_BUSDATE, REV_INPT_DATE, REV_TIME, REVW_BY,
+            REVW_MRKT_BUSDATE, REVW_INPT_DATE, REVW_TIME, REJ_REASN, AC_ID, INSTR_ID, INSTCL_ID, INSTCL_VID, MRKT_ID,
+            STK_LOCTN_ID, STK_STAT_CDE, STK_QTY, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ,
+            EXTRNL_REF_NUM, IS_TP_TXN, TAX_CATG_CDE, IS_OTCR_TXN, OTCR_PRICE_CCY_CDE, OTCR_PRICE, OTCR_STK_TXN_DATE,
+            IS_REV_TXN, REV_REASN_CDE, ORIG_TXN_REF_NUM, ORIG_TXN_TYP_CDE)
+            VALUES ( #{item.stkMemoTxnId,jdbcType=BIGINT}, #{item.cmpnyCde,jdbcType=VARCHAR},
+            #{item.txnTypId,jdbcType=BIGINT}, #{item.txnTypActnCde,jdbcType=VARCHAR},
+            #{item.txnRefNum,jdbcType=VARCHAR}, #{item.valDate,jdbcType=TIMESTAMP}, #{item.remrk,jdbcType=VARCHAR},
+            #{item.primyRemrkFrStmt,jdbcType=VARCHAR}, #{item.stkReqStatCde,jdbcType=VARCHAR},
+            #{item.stkChnlCde,jdbcType=VARCHAR}, #{item.creatBy,jdbcType=VARCHAR},
+            #{item.creatMrktBusdate,jdbcType=TIMESTAMP}, #{item.creatInptDate,jdbcType=TIMESTAMP},
+            #{item.lastSubmittedBy,jdbcType=VARCHAR}, #{item.lastSubmittedMrktBusdate,jdbcType=TIMESTAMP},
+            #{item.lastSubmittedInptDate,jdbcType=TIMESTAMP}, #{item.lastSubmittedTime,jdbcType=TIMESTAMP},
+            #{item.lastRtunBy,jdbcType=VARCHAR}, #{item.lastRtunMrktBusdate,jdbcType=TIMESTAMP},
+            #{item.lastRtunInptDate,jdbcType=TIMESTAMP}, #{item.lastRtunTime,jdbcType=TIMESTAMP},
+            #{item.lastRtunReasn,jdbcType=VARCHAR}, #{item.lastInProgressBy,jdbcType=VARCHAR},
+            #{item.lastInProgressMrktBusdate,jdbcType=TIMESTAMP}, #{item.lastInProgressTime,jdbcType=TIMESTAMP},
+            #{item.lastInProgressInptDate,jdbcType=TIMESTAMP}, #{item.lastOnHandBy,jdbcType=VARCHAR},
+            #{item.lastOnHandMrktBusdate,jdbcType=TIMESTAMP}, #{item.lastOnHandInptDate,jdbcType=TIMESTAMP},
+            #{item.lastOnHandTime,jdbcType=TIMESTAMP}, #{item.actOnHandInptDate,jdbcType=TIMESTAMP},
+            #{item.aprvRejectDelBy,jdbcType=VARCHAR}, #{item.aprvRejectDelMrktBusdate,jdbcType=TIMESTAMP},
+            #{item.aprvRejectDelInptDate,jdbcType=TIMESTAMP}, #{item.aprvRejectDelTime,jdbcType=TIMESTAMP},
+            #{item.revBy,jdbcType=VARCHAR}, #{item.revMrktBusdate,jdbcType=TIMESTAMP},
+            #{item.revInptDate,jdbcType=TIMESTAMP}, #{item.revTime,jdbcType=TIMESTAMP}, #{item.revwBy,jdbcType=VARCHAR},
+            #{item.revwMrktBusdate,jdbcType=TIMESTAMP}, #{item.revwInptDate,jdbcType=TIMESTAMP},
+            #{item.revwTime,jdbcType=TIMESTAMP}, #{item.rejReasn,jdbcType=VARCHAR}, #{item.acId,jdbcType=VARCHAR},
+            #{item.instrId,jdbcType=BIGINT}, #{item.instclId,jdbcType=BIGINT}, #{item.instclVid,jdbcType=BIGINT},
+            #{item.mrktId,jdbcType=BIGINT}, #{item.stkLoctnId,jdbcType=BIGINT}, #{item.stkStatCde,jdbcType=VARCHAR},
+            #{item.stkQty,jdbcType=DECIMAL}, #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT},
+            #{item.extrnlRefNum,jdbcType=VARCHAR}, #{item.isTpTxn,jdbcType=VARCHAR},
+            #{item.taxCatgCde,jdbcType=VARCHAR}, #{item.isOtcrTxn,jdbcType=VARCHAR},
+            #{item.otcrPriceCcyCde,jdbcType=VARCHAR}, #{item.otcrPrice,jdbcType=DECIMAL},
+            #{item.otcrStkTxnDate,jdbcType=TIMESTAMP}, #{item.isRevTxn,jdbcType=VARCHAR},
+            #{item.revReasnCde,jdbcType=VARCHAR}, #{item.origTxnRefNum,jdbcType=VARCHAR},
+            #{item.origTxnTypCde,jdbcType=VARCHAR})
+        </foreach>
+        SELECT 1 FROM DUAL
     </insert>
 
 </mapper>

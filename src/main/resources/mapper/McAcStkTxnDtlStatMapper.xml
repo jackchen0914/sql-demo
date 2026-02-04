@@ -2,8 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McAcStkTxnDtlStatMapper">
 
-    <insert id="batchInsert">
-
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_AC_STK_TXN_DTL_STAT (AC_STK_TXN_DTL_STK_STAT_ID, AC_STK_TXN_DTL_ID, STK_STAT_CDE, STK_QTY,
+            REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES ( #{item.acStkTxnDtlStkStatId,jdbcType=BIGINT}, #{item.acStkTxnDtlId,jdbcType=BIGINT},
+            #{item.stkStatCde,jdbcType=VARCHAR}, #{item.stkQty,jdbcType=DECIMAL}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
     </insert>
 
 </mapper>

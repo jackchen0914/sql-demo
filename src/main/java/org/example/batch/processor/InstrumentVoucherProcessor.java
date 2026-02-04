@@ -23,10 +23,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVoucherPO, InstrumentVoucherResultDTO> {
 
-    private final InstrumentVoucherMapper instrumentVoucherMapper;
-    private final TransactionTypesMapper transactionTypesMapper;
+
     private final McInstrMapper mcInstrMapper;
-    private final McStkTxnMapper mcStkTxnMapper;
     private final McMrktMapper mcMrktMapper;
     private final McInstclVerMapper mcInstclVerMapper;
     private final IdGeneratorService idGeneratorService;
@@ -50,7 +48,7 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
 
         mcAcStkTxnDtlStatPO.setAcStkTxnDtlStkStatId(idGeneratorService.generateDetailId());
         mcAcStkTxnDtlStatPO.setAcStkTxnDtlId((mainId));
-        mcAcStkTxnDtlStatPO.setStkStatCde(stkStatCdeTrans(items.getLocation(),items.getTxnType()));
+        mcAcStkTxnDtlStatPO.setStkStatCde(items.getStkStatCdeValue());
         mcAcStkTxnDtlStatPO.setStkQty(items.getQuantity());
         mcAcStkTxnDtlStatPO.setRecVerNum(0L);
         mcAcStkTxnDtlStatPO.setInitTime(LocalDateTime.now());
@@ -70,8 +68,8 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
 
         mcAcStkTxnDtlPO.setAcStkTxnDtlId(mainId);
         mcAcStkTxnDtlPO.setStkTxnId(mainId);
-        mcAcStkTxnDtlPO.setTxnTypId(txnTypIdConvert(items.getTxnType()));
-        mcAcStkTxnDtlPO.setTxnTypActnCde(txnTypActnCdeTrans(items.getTxnType()));
+        mcAcStkTxnDtlPO.setTxnTypId(items.getTxnTypIdValue());
+        mcAcStkTxnDtlPO.setTxnTypActnCde(items.getTxnTypActnCdeValue());
         mcAcStkTxnDtlPO.setTxnRefNum(String.valueOf(items.getVoucherNo()));
         mcAcStkTxnDtlPO.setCmpnyCde("TFS");
         mcAcStkTxnDtlPO.setInstrId(findInstrIdByCodeProcess(items.getInstrument(),"instrId"));
@@ -106,8 +104,8 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         //2961703
         mcStkMemoTxnPO.setStkMemoTxnId(mainId);
         mcStkMemoTxnPO.setCmpnyCde("TFS");
-        mcStkMemoTxnPO.setTxnTypId(txnTypIdConvert(items.getTxnType()));
-        mcStkMemoTxnPO.setTxnTypActnCde(txnTypActnCdeTrans(items.getTxnType()));
+        mcStkMemoTxnPO.setTxnTypId(items.getTxnTypIdValue());
+        mcStkMemoTxnPO.setTxnTypActnCde(items.getTxnTypActnCdeValue());
         mcStkMemoTxnPO.setTxnRefNum(String.valueOf(items.getVoucherNo()));
         mcStkMemoTxnPO.setValDate(items.getValueDate());
         mcStkMemoTxnPO.setRemrk(items.getRemark());
@@ -126,13 +124,11 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         mcStkMemoTxnPO.setAprvRejectDelInptDate(items.getVoucherDate());
         mcStkMemoTxnPO.setAprvRejectDelTime(items.getApprovalTime());
         mcStkMemoTxnPO.setAcId("02-0000389-30");
-
         mcStkMemoTxnPO.setInstrId(findInstrIdByCodeProcess(items.getInstrument(),"instrId"));
         mcStkMemoTxnPO.setInstclId(findInstrIdByCodeProcess(items.getInstrument(),"tclId"));
         mcStkMemoTxnPO.setInstclVid(instrumentFindInstclVid(items));
         mcStkMemoTxnPO.setMrktId(marketCodeConversion(items));
-
-        mcStkMemoTxnPO.setStkStatCde(stkStatCdeTrans(items.getLocation(),items.getTxnType()));
+        mcStkMemoTxnPO.setStkStatCde(items.getStkStatCdeValue());
         mcStkMemoTxnPO.setStkQty(items.getQuantity());
         mcStkMemoTxnPO.setRecVerNum(0L);
         mcStkMemoTxnPO.setInitTime(LocalDateTime.now());
@@ -159,8 +155,8 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         mcLoctnStkTxnDtlPO.setLoctnStkTxnDtlId(idGeneratorService.generateDetailId());
         mcLoctnStkTxnDtlPO.setCmpnyCde("TFS");
         mcLoctnStkTxnDtlPO.setStkTxnId(mainId);
-        mcLoctnStkTxnDtlPO.setTxnTypId(txnTypIdConvert(items.getTxnType()));
-        mcLoctnStkTxnDtlPO.setTxnTypActnCde(txnTypActnCdeTrans(items.getTxnType()));
+        mcLoctnStkTxnDtlPO.setTxnTypId(items.getTxnTypIdValue());
+        mcLoctnStkTxnDtlPO.setTxnTypActnCde(items.getTxnTypActnCdeValue());
         mcLoctnStkTxnDtlPO.setTxnRefNum(String.valueOf(items.getVoucherNo()));
         mcLoctnStkTxnDtlPO.setInstrId(findInstrIdByCodeProcess(items.getInstrument(),"instrId"));
         mcLoctnStkTxnDtlPO.setInstclId(findInstrIdByCodeProcess(items.getInstrument(),"tclId"));
@@ -180,7 +176,7 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         mcLoctnStkTxnDtlPO.setIsTodayRev(isTodayRevTrans(items));
 //            mcLoctnStkTxnDtlPO.setRevLoctnStkTxnDtlId("N");
         mcLoctnStkTxnDtlPO.setIsIgnrDatSync("N");
-        mcLoctnStkTxnDtlPO.setStkStatCde(PropertyConverUtils.stkStatCdeTrans(items.getLocation()));
+        mcLoctnStkTxnDtlPO.setStkStatCde(items.getStkStatCdeValue());
         mcLoctnStkTxnDtlPO.setRecVerNum(0L);
         mcLoctnStkTxnDtlPO.setInitTime(LocalDateTime.now());
         mcLoctnStkTxnDtlPO.setLastUpdTime(LocalDateTime.now());
@@ -197,7 +193,6 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         return result;
     }
 
-    @DS("oracle")
     private Long findInstrIdByCodeProcess(String instrument,String typeId) {
         List<McInstrPO> instrIdByCodeList = mcInstrMapper.findInstrIdByCodeList(instrument);
         if (CollectionUtils.isEmpty(instrIdByCodeList)) {
@@ -210,12 +205,6 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         }
     }
 
-    private Long txnTypIdConvert(String code) {
-        TransactionTypesPO transactionTypesPO = transactionTypesMapper.selectTxnTypeActionCode(code);
-        return transactionTypesPO.getSignIndicator().equals("D") ? 2501L : 2522L;
-    }
-
-    @DS("oracle")
     private Long instrumentFindInstclVid(InstrumentVoucherPO po) {
         List<McInstrPO> instclVidByInstrument = mcInstrMapper.findInstrIdByCodeList(po.getInstrument());
         McInstclVerPO instclVidByDate = mcInstclVerMapper.findInstclVidByDate(instclVidByInstrument.get(0).getInstclId(), String.valueOf(po.getConfirmationDate()));
@@ -293,29 +282,6 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
         return instrIdByCode.getMrktId() == null ? null : instrIdByCode.getMrktId();
     }
 
-    private String stkStatCdeTrans(String location,String txnType) {
-        switch (location){
-            case "NOM":
-                return "NOMINEE";
-            case "OWM":
-                return "OWNERNAME";
-            case "BONUS":
-                return "BONUS";
-            case "ST":
-//                return "DIP(Deposit)/WIP(Withdraw)";
-                return findByStatCde(txnType);
-            default: return " ";
-        }
-    }
-
-    private String findByStatCde(String txnType) {
-        TransactionTypesPO transactionTypesPO = transactionTypesMapper.selectTxnTypeActionCode(txnType);
-        if (transactionTypesPO.getSignIndicator() != null) {
-            return transactionTypesPO.getSignIndicator().equals("D") ? "DIP" : "WIP";
-        }
-        return null;
-    }
-
     private String isRevTrans(InstrumentVoucherPO po) {
         //2019-06-05 00:00:00.000
         if(po.getCancelDate()!=null && po.getConfirmationDate() != null){
@@ -333,14 +299,6 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
             }
         }
         return "N";
-    }
-
-    private String txnTypActnCdeTrans(String code) {
-        TransactionTypesPO transactionTypesPO = transactionTypesMapper.selectTxnTypeActionCode(code);
-        if (transactionTypesPO.getSignIndicator() != null) {
-            return transactionTypesPO.getSignIndicator().equals("D") ? "IN" : "OUT";
-        }
-        return " ";
     }
 }
 

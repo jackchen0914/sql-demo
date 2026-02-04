@@ -102,4 +102,11 @@ public class InstrumentVoucherPO implements Serializable {
 
     @TableField("StatusFlag")
     private String statusFlag;
+
+    @TableField(exist = false)
+    private String txnTypActnCdeValue;
+    @TableField(exist = false)
+    private String stkStatCdeValue;
+    @TableField(exist = false)
+    private Long txnTypIdValue;
 }

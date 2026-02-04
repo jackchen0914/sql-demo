@@ -3,6 +3,7 @@ package org.example.mapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.pojo.McStkMemoTxnReqPO;
 
 import java.util.List;
@@ -19,5 +20,5 @@ import java.util.List;
 @Mapper
 public interface McStkMemoTxnReqMapper extends BaseMapper<McStkMemoTxnReqPO> {
 
-    void batchInsert(List<McStkMemoTxnReqPO> mcStkMemoTxnReqPOS);
+    int batchInsert(@Param("list") List<McStkMemoTxnReqPO> mcStkMemoTxnReqPOS);
 }

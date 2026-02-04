@@ -15,7 +15,7 @@ import java.util.List;
 public interface InstrumentVoucherMapper extends BaseMapper<InstrumentVoucherPO> {
 
     @Select("SELECT VoucherNo, VoucherDate, ReferenceNo, Clnt, ClntAcctType, Instrument, Market, Depot, Location, Quantity, Comment, Charge, Userid, Status, [TimeStamp], TxnType, ValueDate, ConfirmationDate, CancelDate, ManualInput, Remark, UserIDTime, Approver, ApprovalTime, StatusFlag\n" +
-            "FROM dbo.InstrumentVoucher ORDER BY VoucherNo DESC OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
+            "FROM dbo.InstrumentVoucher WHERE SUBSTRING(StatusFlag,8,1) != 'Y' ORDER BY VoucherNo DESC OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
 //            "FROM dbo.InstrumentVoucher ORDER BY Market,VoucherNo OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
     List<InstrumentVoucherPO> selectByPage(@Param("offset") int offset, @Param("limit") int limit);
 

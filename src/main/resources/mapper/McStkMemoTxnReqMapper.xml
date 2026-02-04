@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McStkMemoTxnReqMapper">
 
-    <insert id="batchInsert">
-
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_STK_MEMO_TXN_REQ (STK_MEMO_TXN_REQ_ID, STK_MEMO_TXN_ID, STK_TXN_ID, REV_STK_TXN_ID, IS_REV,
+            STK_REQ_STAT_CDE, STK_APRV_STAT_CDE, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES ( #{item.stkMemoTxnReqId,jdbcType=BIGINT}, #{item.stkMemoTxnId,jdbcType=BIGINT},
+            #{item.stkTxnId,jdbcType=BIGINT}, #{item.revStkTxnId,jdbcType=BIGINT}, #{item.isRev,jdbcType=VARCHAR},
+            #{item.stkReqStatCde,jdbcType=VARCHAR}, #{item.stkAprvStatCde,jdbcType=VARCHAR},
+            #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
     </insert>
 
 </mapper>

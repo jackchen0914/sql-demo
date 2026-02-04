@@ -6,8 +6,29 @@
     <insert id="batchInsert" parameterType="java.util.List">
         INSERT ALL
         <foreach collection="list" item="item">
-            INTO MSSAPP.MC_AC_STK_TXN_DTL (, AC_STK_TXN_DTL_ID, STK_TXN_ID, TXN_TYP_ID, TXN_TYP_ACTN_CDE, TXN_REF_NUM, CMPNY_CDE, INSTR_ID, INSTCL_ID, INSTCL_VID, MRKT_ID, VAL_DATE, INPT_DATE, MRKT_BUSDATE, STK_CHNL_CDE, REMRK, IS_AUTO_APRV, IS_MEMO, IS_TRNFR, IS_REV, IS_SHOW_IN_STMT, IS_TODAY_REV, REV_AC_STK_TXN_DTL_ID, IS_IGNR_DAT_SYNC, AC_ID, AVG_COST, AVG_COST_CCY_CDE, PRIMY_REMRK_FR_STMT, SYS_PRIMY_REMRK_FR_STMT, STMT_MODULE_CDE, STMT_MODULE_KEY, PRIMY_AC_STK_STMT_REMRK_ID, PRIMY_AC_STK_SYS_STMT_REMRK_ID, EXTRNL_TXN_REF_NUM, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ, IS_TP_TXN, IS_OTCR_TXN)
-            VALUES (, #{item.acStkTxnDtlId,jdbcType=BIGINT}, #{item.stkTxnId,jdbcType=BIGINT}, #{item.txnTypId,jdbcType=BIGINT}, #{item.txnTypActnCde,jdbcType=VARCHAR}, #{item.txnRefNum,jdbcType=VARCHAR}, #{item.cmpnyCde,jdbcType=VARCHAR}, #{item.instrId,jdbcType=BIGINT}, #{item.instclId,jdbcType=BIGINT}, #{item.instclVid,jdbcType=BIGINT}, #{item.mrktId,jdbcType=BIGINT}, #{item.valDate,jdbcType=TIMESTAMP}, #{item.inptDate,jdbcType=TIMESTAMP}, #{item.mrktBusdate,jdbcType=TIMESTAMP}, #{item.stkChnlCde,jdbcType=VARCHAR}, #{item.remrk,jdbcType=VARCHAR}, #{item.isAutoAprv,jdbcType=VARCHAR}, #{item.isMemo,jdbcType=VARCHAR}, #{item.isTrnfr,jdbcType=VARCHAR}, #{item.isRev,jdbcType=VARCHAR}, #{item.isShowInStmt,jdbcType=VARCHAR}, #{item.isTodayRev,jdbcType=VARCHAR}, #{item.revAcStkTxnDtlId,jdbcType=BIGINT}, #{item.isIgnrDatSync,jdbcType=VARCHAR}, #{item.acId,jdbcType=VARCHAR}, #{item.avgCost,jdbcType=DECIMAL}, #{item.avgCostCcyCde,jdbcType=VARCHAR}, #{item.primyRemrkFrStmt,jdbcType=VARCHAR}, #{item.sysPrimyRemrkFrStmt,jdbcType=VARCHAR}, #{item.stmtModuleCde,jdbcType=VARCHAR}, #{item.stmtModuleKey,jdbcType=VARCHAR}, #{item.primyAcStkStmtRemrkId,jdbcType=BIGINT}, #{item.primyAcStkSysStmtRemrkId,jdbcType=BIGINT}, #{item.extrnlTxnRefNum,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT}, #{item.isTpTxn,jdbcType=VARCHAR}, #{item.isOtcrTxn,jdbcType=VARCHAR})
+            INTO MSSAPP.MC_AC_STK_TXN_DTL (AC_STK_TXN_DTL_ID, STK_TXN_ID, TXN_TYP_ID, TXN_TYP_ACTN_CDE, TXN_REF_NUM,
+            CMPNY_CDE, INSTR_ID, INSTCL_ID, INSTCL_VID, MRKT_ID, VAL_DATE, INPT_DATE, MRKT_BUSDATE, STK_CHNL_CDE, REMRK,
+            IS_AUTO_APRV, IS_MEMO, IS_TRNFR, IS_REV, IS_SHOW_IN_STMT, IS_TODAY_REV, REV_AC_STK_TXN_DTL_ID,
+            IS_IGNR_DAT_SYNC, AC_ID, AVG_COST, AVG_COST_CCY_CDE, PRIMY_REMRK_FR_STMT, SYS_PRIMY_REMRK_FR_STMT,
+            STMT_MODULE_CDE, STMT_MODULE_KEY, PRIMY_AC_STK_STMT_REMRK_ID, PRIMY_AC_STK_SYS_STMT_REMRK_ID,
+            EXTRNL_TXN_REF_NUM, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ, IS_TP_TXN, IS_OTCR_TXN)
+            VALUES (#{item.acStkTxnDtlId,jdbcType=BIGINT}, #{item.stkTxnId,jdbcType=BIGINT},
+            #{item.txnTypId,jdbcType=BIGINT}, #{item.txnTypActnCde,jdbcType=VARCHAR},
+            #{item.txnRefNum,jdbcType=VARCHAR}, #{item.cmpnyCde,jdbcType=VARCHAR}, #{item.instrId,jdbcType=BIGINT},
+            #{item.instclId,jdbcType=BIGINT}, #{item.instclVid,jdbcType=BIGINT}, #{item.mrktId,jdbcType=BIGINT},
+            #{item.valDate,jdbcType=TIMESTAMP}, #{item.inptDate,jdbcType=TIMESTAMP},
+            #{item.mrktBusdate,jdbcType=TIMESTAMP}, #{item.stkChnlCde,jdbcType=VARCHAR}, #{item.remrk,jdbcType=VARCHAR},
+            #{item.isAutoAprv,jdbcType=VARCHAR}, #{item.isMemo,jdbcType=VARCHAR}, #{item.isTrnfr,jdbcType=VARCHAR},
+            #{item.isRev,jdbcType=VARCHAR}, #{item.isShowInStmt,jdbcType=VARCHAR}, #{item.isTodayRev,jdbcType=VARCHAR},
+            #{item.revAcStkTxnDtlId,jdbcType=BIGINT}, #{item.isIgnrDatSync,jdbcType=VARCHAR},
+            #{item.acId,jdbcType=VARCHAR}, #{item.avgCost,jdbcType=DECIMAL}, #{item.avgCostCcyCde,jdbcType=VARCHAR},
+            #{item.primyRemrkFrStmt,jdbcType=VARCHAR}, #{item.sysPrimyRemrkFrStmt,jdbcType=VARCHAR},
+            #{item.stmtModuleCde,jdbcType=VARCHAR}, #{item.stmtModuleKey,jdbcType=VARCHAR},
+            #{item.primyAcStkStmtRemrkId,jdbcType=BIGINT}, #{item.primyAcStkSysStmtRemrkId,jdbcType=BIGINT},
+            #{item.extrnlTxnRefNum,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT}, #{item.isTpTxn,jdbcType=VARCHAR},
+            #{item.isOtcrTxn,jdbcType=VARCHAR})
         </foreach>
         SELECT 1 FROM DUAL
     </insert>

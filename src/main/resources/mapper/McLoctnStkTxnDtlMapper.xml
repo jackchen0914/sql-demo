@@ -2,8 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McLoctnStkTxnDtlMapper">
 
-    <insert id="batchInsert">
-
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_LOCTN_STK_TXN_DTL (LOCTN_STK_TXN_DTL_ID, CMPNY_CDE, STK_TXN_ID, TXN_TYP_ID, TXN_TYP_ACTN_CDE,
+            TXN_REF_NUM, INSTR_ID, INSTCL_ID, INSTCL_VID, MRKT_ID, VAL_DATE, INPT_DATE, MRKT_BUSDATE, STK_CHNL_CDE,
+            STK_QTY, REMRK, IS_AUTO_APRV, IS_MEMO, IS_TRNFR, IS_REV, IS_SHOW_IN_STMT, IS_TODAY_REV,
+            REV_LOCTN_STK_TXN_DTL_ID, IS_IGNR_DAT_SYNC, STK_LOCTN_ID, SLEDG_ID, STK_STAT_CDE, REC_VER_NUM, INIT_TIME,
+            LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ)
+            VALUES (#{item.loctnStkTxnDtlId,jdbcType=BIGINT}, #{item.cmpnyCde,jdbcType=VARCHAR},
+            #{item.stkTxnId,jdbcType=BIGINT}, #{item.txnTypId,jdbcType=BIGINT}, #{item.txnTypActnCde,jdbcType=VARCHAR},
+            #{item.txnRefNum,jdbcType=VARCHAR}, #{item.instrId,jdbcType=BIGINT}, #{item.instclId,jdbcType=BIGINT},
+            #{item.instclVid,jdbcType=BIGINT}, #{item.mrktId,jdbcType=BIGINT}, #{item.valDate,jdbcType=TIMESTAMP},
+            #{item.inptDate,jdbcType=TIMESTAMP}, #{item.mrktBusdate,jdbcType=TIMESTAMP},
+            #{item.stkChnlCde,jdbcType=VARCHAR}, #{item.stkQty,jdbcType=DECIMAL}, #{item.remrk,jdbcType=VARCHAR},
+            #{item.isAutoAprv,jdbcType=VARCHAR}, #{item.isMemo,jdbcType=VARCHAR}, #{item.isTrnfr,jdbcType=VARCHAR},
+            #{item.isRev,jdbcType=VARCHAR}, #{item.isShowInStmt,jdbcType=VARCHAR}, #{item.isTodayRev,jdbcType=VARCHAR},
+            #{item.revLoctnStkTxnDtlId,jdbcType=BIGINT}, #{item.isIgnrDatSync,jdbcType=VARCHAR},
+            #{item.stkLoctnId,jdbcType=BIGINT}, #{item.sledgId,jdbcType=BIGINT}, #{item.stkStatCde,jdbcType=VARCHAR},
+            #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT})
+        </foreach>
+        SELECT 1 FROM DUAL
     </insert>
 
 </mapper>
