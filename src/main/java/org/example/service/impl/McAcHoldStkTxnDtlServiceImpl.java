@@ -116,45 +116,69 @@ public class McAcHoldStkTxnDtlServiceImpl extends ServiceImpl<McAcHoldStkTxnDtlM
 
     private Long marketCodeConversion(InstrumentVoucherPO po) {
         String code = "";
-        if(po.getMarket().equals("AUS")){
-            code = "AUS";
-        } else if (po.getMarket().equals("BOD") || po.getMarket().equals("BON")||
-                po.getMarket().equals("DEO")|| po.getMarket().equals("DEV")|| po.getMarket().equals("FUN")||po.getMarket().equals("MMF")) {
-            code = "OTC";
-        }else if (po.getMarket().equals("CAN")) {
-            code = "TSX";
-        }else if (po.getMarket().equals("CHA")) {
-            code = "SZSEA";
-        }else if (po.getMarket().equals("CHE")) {
-            code = "SIX";
-        }else if (po.getMarket().equals("DEU")) {
-            code = "FSE";
-        }else if (po.getMarket().equals("FRA")) {
-            code = "PARIS";
-        }else if (po.getMarket().equals("HKG")) {
-            code = "HKEX";
-        }else if (po.getMarket().equals("JPN")) {
-            code = "OSE";
-        }else if (po.getMarket().equals("KOR")) {
-            code = "KSE";
-        }else if (po.getMarket().equals("MAL")) {
-            code = "KLSE";
-        }else if (po.getMarket().equals("SHA")) {
-            code = "HKSSE";
-        }else if (po.getMarket().equals("SHB")) {
-            code = "SSE";
-        }else if (po.getMarket().equals("SIN")) {
-            code = "SGX";
-        }else if (po.getMarket().equals("SZA")) {
-            code = "HKSZSE";
-        }else if (po.getMarket().equals("SZB")) {
-            code = "SZSE";
-        }else if (po.getMarket().equals("TWN")) {
-            code = "TSEC";
-        }else if (po.getMarket().equals("UKG")) {
-            code = "LSE";
-        }else if (po.getMarket().equals("USA")) {
-            code = "NYSEMKT";
+        switch (po.getMarket()) {
+            case "AUS":
+                code = "AUS";
+                break;
+            case "BOD":
+            case "BON":
+            case "DEO":
+            case "DEV":
+            case "FUN":
+            case "MMF":
+                code = "OTC";
+                break;
+            case "CAN":
+                code = "TSX";
+                break;
+            case "CHA":
+                code = "SZSEA";
+                break;
+            case "CHE":
+                code = "SIX";
+                break;
+            case "DEU":
+                code = "FSE";
+                break;
+            case "FRA":
+                code = "PARIS";
+                break;
+            case "HKG":
+                code = "HKEX";
+                break;
+            case "JPN":
+                code = "OSE";
+                break;
+            case "KOR":
+                code = "KSE";
+                break;
+            case "MAL":
+                code = "KLSE";
+                break;
+            case "SHA":
+                code = "HKSSE";
+                break;
+            case "SHB":
+                code = "SSE";
+                break;
+            case "SIN":
+                code = "SGX";
+                break;
+            case "SZA":
+                code = "HKSZSE";
+                break;
+            case "SZB":
+                code = "SZSE";
+                break;
+            case "TWN":
+                code = "TSEC";
+                break;
+            case "UKG":
+                code = "LSE";
+                break;
+            case "USA":
+                code = "NYSEMKT";
+                break;
         }
         McMrktPO instrIdByCode = mcMrktMapper.findInstrIdByCode(code);
         return instrIdByCode.getMrktId();

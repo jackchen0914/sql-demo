@@ -2,4 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.McAcHoldStkTxnDtlMapper">
 
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_AC_HOLD_STK_TXN_DTL (AC_HOLD_STK_TXN_DTL_ID, AC_HOLD_STK_TXN_ID, HOLD_STK_TXN_TYP_CDE,
+            TXN_REF_NUM, TXN_TYP_ID, AC_ID, CMPNY_CDE, INSTR_ID, INSTCL_ID, MRKT_ID, MRKT_BUSDATE, EXTRNL_REF_NUM,
+            HOLD_STK_QTY, EXPR_DATE, HOLD_STK_STAT_CDE, HOLD_STK_CHNL_CDE, REMRK, HOLD_DATE, HOLD_BY, RELSE_DATE,
+            RELSE_BY, RELSE_STK_QTY, SRC_SYS_CDE, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY, TAG_SEQ,
+            INTRNL_REF)
+            VALUES (#{item.acHoldStkTxnDtlId,jdbcType=BIGINT}, #{item.acHoldStkTxnId,jdbcType=BIGINT},
+            #{item.holdStkTxnTypCde,jdbcType=VARCHAR}, #{item.txnRefNum,jdbcType=VARCHAR},
+            #{item.txnTypId,jdbcType=BIGINT}, #{item.acId,jdbcType=VARCHAR}, #{item.cmpnyCde,jdbcType=VARCHAR},
+            #{item.instrId,jdbcType=BIGINT}, #{item.instclId,jdbcType=BIGINT}, #{item.mrktId,jdbcType=BIGINT},
+            #{item.mrktBusdate,jdbcType=TIMESTAMP}, #{item.extrnlRefNum,jdbcType=VARCHAR},
+            #{item.holdStkQty,jdbcType=DECIMAL}, #{item.exprDate,jdbcType=TIMESTAMP},
+            #{item.holdStkStatCde,jdbcType=VARCHAR}, #{item.holdStkChnlCde,jdbcType=VARCHAR},
+            #{item.remrk,jdbcType=VARCHAR}, #{item.holdDate,jdbcType=TIMESTAMP}, #{item.holdBy,jdbcType=VARCHAR},
+            #{item.relseDate,jdbcType=TIMESTAMP}, #{item.relseBy,jdbcType=VARCHAR},
+            #{item.relseStkQty,jdbcType=DECIMAL}, #{item.srcSysCde,jdbcType=VARCHAR}, #{item.recVerNum,jdbcType=BIGINT},
+            #{item.initTime,jdbcType=TIMESTAMP}, #{item.lastUpdTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT}, #{item.intrnlRef,jdbcType=VARCHAR})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
 </mapper>

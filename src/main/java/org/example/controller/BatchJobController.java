@@ -58,6 +58,11 @@ public class BatchJobController {
         return batchJobService.startHoldCashMigration();
     }
 
+    @GetMapping("/holdInstrument")
+    public String startHoldInstrumentMigration(){
+        return batchJobService.startHoldInstrumentMigration();
+    }
+
     @GetMapping("/full")
     public String migrateAll(){
         return batchJobService.runFullMigration();

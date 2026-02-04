@@ -214,6 +214,28 @@ public class BatchJobService{
         }
     }
 
+    //=========== HoldInstrument ============
+    @Autowired
+    @Qualifier("holdInstrumentMigrationJob")
+    private Job holdInstrumentMigrationJob;
+
+    @Autowired
+    private HoldInstrumentReader holdInstrumentReader;
+
+    public String startHoldInstrumentMigration(){
+        try {
+            holdInstrumentReader.reset();
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("timestamp",System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(holdInstrumentMigrationJob, jobParameters);
+            return "successfully";
+        } catch (Exception e) {
+            log.error("error",e);
+            return "error: " + e.getMessage();
+        }
+    }
+
     //=========== Full Migration ============
     @Autowired
     @Qualifier("fullMigrationJob")

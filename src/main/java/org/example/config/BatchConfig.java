@@ -307,6 +307,37 @@ public class BatchConfig {
                 .build();
     }
 
+    //=========== HoldInstrument ============
+    @Autowired
+    private HoldInstrumentProcessor holdInstrumentProcessor;
+
+    @Autowired
+    private HoldInstrumentReader holdInstrumentReader;
+
+    @Autowired
+    private HoldInstrumentWriter holdInstrumentWriter;
+
+    @Bean
+    public Step holdInstrumentMigrationStep(){
+        return stepBuilderFactory.get("holdInstrumentMigrationStep")
+                .<InstrumentVoucherPO, HoldInstrumentResultDTO>chunk(1000)
+                .reader(holdInstrumentReader)
+                .processor(holdInstrumentProcessor)
+                .writer(holdInstrumentWriter)
+                .faultTolerant()
+                .skipLimit(3)
+                .skip(Exception.class)
+                .build();
+    }
+
+    @Bean
+    public Job holdInstrumentMigrationJob(){
+        return jobBuilderFactory.get("holdInstrumentMigrationStep")
+                .incrementer(new RunIdIncrementer())
+                .start(holdInstrumentMigrationStep())
+                .build();
+    }
+
     //=========== Full Migration Job ============
     @Bean
     public Job fullMigrationJob(){
