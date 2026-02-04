@@ -44,7 +44,7 @@ public class McAcHoldStkTxnDtlServiceImpl extends ServiceImpl<McAcHoldStkTxnDtlM
 
     @Override
     public void writeProcessedData() {
-        List<InstrumentVoucherPO> instrumentVoucherPOS = instrumentVoucherMapper.selectByPage(1,9);
+        List<InstrumentVoucherPO> instrumentVoucherPOS = instrumentVoucherMapper.selectStatusFlagEqualYByPage(1,9);
         List<McAcHoldStkTxnDtlPO> holdStkTxnDtlPOList = new ArrayList<>();
         List<McAcHoldStkTxnPO> holdStkTxnPOList = new ArrayList<>();
         for (int i = 0; i < instrumentVoucherPOS.size(); i++) {

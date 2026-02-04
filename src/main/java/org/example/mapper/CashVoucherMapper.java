@@ -27,7 +27,7 @@ public interface CashVoucherMapper extends BaseMapper<CashVoucherPO> {
    List<CashVoucherPO> selectTop5();
 
    @Select("select InputDate,Clnt ,CCY ,TxnType ,VoucherNo ,Amount ,ValueDate ,StatusFlag ,ManualInput ,VoucherDate ,Userid ,Remark ,[Source] ,AccountName ,AccountNumber ,Status ,Charge ,CancelDate ,ConfirmationDate ,ApprovalTime ,Market  from CashVoucher where SUBSTRING(StatusFlag ,8,1) = 'Y' order by VoucherNo,Market OFFSET #{offset} ROWS FETCH NEXT #{limit} ROW ONLY")
-   List<CashVoucherPO> selectByPage(@Param("offset") int offset, @Param("limit") int limit);
+   List<CashVoucherPO> selectStatusFlagIsYByPage(@Param("offset") int offset, @Param("limit") int limit);
 
    List<CashVoucherWithRequestDTO> selectCashVoucherWithRequest(@Param("offset") int offset, @Param("limit") int limit);
 

@@ -53,6 +53,11 @@ public class BatchJobController {
         return batchJobService.startCashVoucherMigration();
     }
 
+    @GetMapping("/holdCash")
+    public String startHoldCashMigration(){
+        return batchJobService.startHoldCashMigration();
+    }
+
     @GetMapping("/full")
     public String migrateAll(){
         return batchJobService.runFullMigration();

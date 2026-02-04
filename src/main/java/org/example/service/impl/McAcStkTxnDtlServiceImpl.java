@@ -52,7 +52,7 @@ public class McAcStkTxnDtlServiceImpl extends ServiceImpl<McAcStkTxnDtlMapper, M
 
     @Override
     public void writeProcessedData() throws InterruptedException {
-        List<InstrumentVoucherPO> instrumentVoucherPOS = instrumentVoucherMapper.selectByPage(1,10);
+        List<InstrumentVoucherPO> instrumentVoucherPOS = instrumentVoucherMapper.selectStatusFlagEqualYByPage(1,10);
         List<McAcStkTxnDtlStatPO> mcAcStkTxnDtlStatDataList = new ArrayList<>();
         List<McAcStkTxnDtlPO> mcAcStkTxnDtlDataList = new ArrayList<>();
         List<McStkTxnPO> mcStkTxnDataList = new ArrayList<>();

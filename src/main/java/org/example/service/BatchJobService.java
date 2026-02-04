@@ -192,6 +192,28 @@ public class BatchJobService{
         }
     }
 
+    //=========== HoldCash ============
+    @Autowired
+    @Qualifier("holdCashMigrationJob")
+    private Job holdCashMigrationJob;
+
+    @Autowired
+    private HoldCashReader holdCashReader;
+
+    public String startHoldCashMigration(){
+        try {
+            holdCashReader.reset();
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("timestamp",System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(holdCashMigrationJob, jobParameters);
+            return "successfully";
+        } catch (Exception e) {
+            log.error("error",e);
+            return "error: " + e.getMessage();
+        }
+    }
+
     //=========== Full Migration ============
     @Autowired
     @Qualifier("fullMigrationJob")

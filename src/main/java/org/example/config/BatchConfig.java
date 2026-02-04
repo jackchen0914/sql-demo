@@ -3,10 +3,7 @@ package org.example.config;
 import org.example.batch.processor.*;
 import org.example.batch.reader.*;
 import org.example.batch.writer.*;
-import org.example.pojo.ClntPriceCapPO;
-import org.example.pojo.InstrumentVoucherPO;
-import org.example.pojo.InterestDailyPO;
-import org.example.pojo.PortfoliofeeDailyPO;
+import org.example.pojo.*;
 import org.example.pojo.dtos.*;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -276,6 +273,37 @@ public class BatchConfig {
         return jobBuilderFactory.get("cashVoucherMigrationStep")
                 .incrementer(new RunIdIncrementer())
                 .start(cashVoucherMigrationStep())
+                .build();
+    }
+
+    //=========== HoldCash ============
+    @Autowired
+    private HoldCashProcessor holdCashProcessor;
+
+    @Autowired
+    private HoldCashReader holdCashReader;
+
+    @Autowired
+    private HoldCashWriter holdCashWriter;
+
+    @Bean
+    public Step holdCashMigrationStep(){
+        return stepBuilderFactory.get("holdCashMigrationStep")
+                .<CashVoucherPO, HoldCashResultDTO>chunk(1000)
+                .reader(holdCashReader)
+                .processor(holdCashProcessor)
+                .writer(holdCashWriter)
+                .faultTolerant()
+                .skipLimit(3)
+                .skip(Exception.class)
+                .build();
+    }
+
+    @Bean
+    public Job holdCashMigrationJob(){
+        return jobBuilderFactory.get("holdCashMigrationStep")
+                .incrementer(new RunIdIncrementer())
+                .start(holdCashMigrationStep())
                 .build();
     }
 

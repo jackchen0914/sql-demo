@@ -39,7 +39,7 @@ public class McStkTxnServiceImpl extends ServiceImpl<McStkTxnMapper, McStkTxnPO>
 
     @Override
     public void writeProcessedData() {
-        List<InstrumentVoucherPO> instrumentVoucherPOS = instrumentVoucherMapper.selectByPage(1,9);
+        List<InstrumentVoucherPO> instrumentVoucherPOS = instrumentVoucherMapper.selectStatusFlagEqualYByPage(1,9);
         List<McStkTxnPO> dataList = new ArrayList<>();
         for (int i = 0; i < instrumentVoucherPOS.size(); i++) {
             InstrumentVoucherPO po = instrumentVoucherPOS.get(i);

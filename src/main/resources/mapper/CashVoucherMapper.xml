@@ -95,7 +95,7 @@
         t1.VoucherNo = t2.VoucherNo
         and t1.Market = t2.Market
         where
-        SUBSTRING(t1.StatusFlag ,8,1) = 'Y'
+        SUBSTRING(t1.StatusFlag ,8,1) != 'Y'
         order by
         t1.VoucherNo,t1.Market
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY;
