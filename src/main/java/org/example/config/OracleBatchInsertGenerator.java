@@ -138,16 +138,22 @@ public class OracleBatchInsertGenerator {
 
     public static void main(String[] args) {
         //生成可追加的xml片段
-//        String fragment = generateInsertFragment(McCommRulePO.class, "MSSAPP.MC_COMM_RULE");
+        String fragment = generateInsertFragment(McAcHoldStkTxnDtlPO.class, "MSSAPP.MC_AC_HOLD_STK_TXN_DTL");
+        System.out.println("===== xml =====");
+        System.out.println(fragment);
+        String fragment1 = generateInsertFragment(McAcHoldStkTxnPO.class, "MSSAPP.MC_AC_HOLD_STK_TXN");
+        System.out.println("===== xml =====");
+        System.out.println(fragment1);
+//        String fragment2 = generateInsertFragment(McStkMemoTxnPO.class, "MSSAPP.MC_STK_MEMO_TXN");
 //        System.out.println("===== xml =====");
-//        System.out.println(fragment);
+//        System.out.println(fragment2);
         //生成 接口方法
 //        String method = generateMapperMethod(McRmAcInstrLndratPO.class);
 //        System.out.println("===== mapper api method =====");
 //        System.out.println(method);
         //生成resultMap映射
-        String resultMap = generateResultMap(BrokerageWithRageDTO.class,"selectBrokerageWithRageMap");
-        System.out.println("===== result map =====");
-        System.out.println(resultMap);
+//        String resultMap = generateResultMap(BrokerageWithRageDTO.class,"selectBrokerageWithRageMap");
+//        System.out.println("===== result map =====");
+//        System.out.println(resultMap);
     }
 }

@@ -28,6 +28,6 @@ public interface InterestDailyMapper extends BaseMapper<InterestDailyPO> {
 
 
     @Select("SELECT [Date], ClntCode, AcctType, Market, CCY, BankAccount, [Type], ReferenceNo, Interest, Principal, Rate, CalculationPeriod, Status, PostDate, SysInterestCal, [Timestamp], MethodType\n" +
-            "FROM dbo.InterestDaily ORDER BY ClntCode DESC OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
+            "FROM dbo.InterestDaily where ClntCode = '000034' ORDER BY ClntCode,[Date] DESC OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
     List<InterestDailyPO> selectByPage(@Param("offset") int offset, @Param("limit") int limit);
 }

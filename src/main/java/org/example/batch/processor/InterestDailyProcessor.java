@@ -78,7 +78,8 @@ public class InterestDailyProcessor implements ItemProcessor<InterestDailyPO, In
         mcAcuintTxnPO.setCcyCde(PropertyConverUtils.standardizeCurrencyCode(items.getCcy()));
         mcAcuintTxnPO.setSegrFundId(1L);
 //        mcAcuintTxnPO.setFromDate(items.getDate().withDayOfMonth(i+1));//唯一约束 不能相同
-//        mcAcuintTxnPO.setFromDate(items.getDate().withDayOfMonth(ma+1));//唯一约束 不能相同
+//        mcAcuintTxnPO.setFromDate(LocalDateTime.parse("2025-01-01T00:00:00.000"));
+        mcAcuintTxnPO.setFromDate(items.getDate());
 //            mcAcuintTxnPO.setIntcyFromDate(items.getDate()); //??
         mcAcuintTxnPO.setToDate(items.getDate());
         mcAcuintTxnPO.setPostDate(items.getPostDate());

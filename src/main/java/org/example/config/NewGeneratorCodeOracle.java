@@ -52,8 +52,8 @@ public class NewGeneratorCodeOracle {
 //                        .addInclude("MC_STK_MEMO_TXN")
 //                        .addInclude("MC_STK_MEMO_TXN_REQ")
 //                        .addInclude("MC_LOCTN_STK_TXN_DTL")
-//                        .addInclude("MC_INSTR")
-//                        .addInclude("MC_MRKT")
+                        .addInclude("MC_INSTR")
+                        .addInclude("MC_MRKT")
 //                        .addInclude("MC_INSTCL_VER")
 
 //                        .addInclude("MC_AC_FUND_HOLD_REC")
