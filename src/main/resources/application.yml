@@ -1,57 +1,19 @@
-server:
-  port: 8088
+# ==========================================
+# 主配置文件 - 通用配置和默认环境
+# ==========================================
+
 spring:
-  batch:
-    jdbc:
-      initialize-schema: embedded
-    job:
-      enabled: false
-  datasource:
-    dynamic:
-      primary: master
-      strict: false
-      hikari:
-        maximum-pool-size: 20
-        minimum-idle: 5
-        connection-timeout: 30000
-        idle-timeout: 600000
-        max-lifetime: 1800000
-      datasource:
-        master:
-          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-          url: jdbc:sqlserver://10.5.80.179:1433;databaseName=OctOBackFT_1231;encrypt=true;trustServerCertificate=true
-          username: pleung
-          password: 123456
-          hikari:
-            maximum-pool-size: 15
-            minimum-idle: 5
-        oracle:
-          driver-class-name: oracle.jdbc.OracleDriver
-#          url: jdbc:oracle:thin:@10.11.198.16:1721:MSEUZ
-          url: jdbc:oracle:thin:@//10.11.198.16:1721/MSEUZ
-          username: JTQAMSSAPP
-          password: JTQAMSSAPP!
-          hikari:
-            maximum-pool-size: 15
-            minimum-idle: 5
+  profiles:
+    active: dev  # 默认激活dev环境
+
+  # 通用配置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+# MyBatis Plus 通用配置
 mybatis-plus:
-#  mapper-locations: classpath*:mapper/**/*.xml
   type-aliases-package: org.example.pojo
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-camel-case: true
-#    jdbc-type-for-null: 'null'
-#    default-executor-type: batch
-#  global-config:
-#    db-config:
-#      oracle:
-#        jdbc-type-for-null: 'null'
-#      sqlserver:
-#        jdbc-type-for-null: 'OTHER'
-#      id-type: auto
-#      batch-size: 1000
