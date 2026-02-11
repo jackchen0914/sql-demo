@@ -38,4 +38,7 @@ public class CashTransferAllDTO implements Serializable {
     private String approverTo;
     private LocalDateTime approvalTimeFrom;
     private LocalDateTime approvalTimeTo;
+
+    private BigDecimal baseCcyEquAmtValue;
+    private BigDecimal baseCcyEquToAmtValue;
 }

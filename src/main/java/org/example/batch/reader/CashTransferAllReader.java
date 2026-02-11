@@ -3,11 +3,16 @@ package org.example.batch.reader;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.extern.slf4j.Slf4j;
 import org.example.mapper.CashTransferMapper;
+import org.example.mapper.ForexRateMapper;
+import org.example.pojo.ForexRatePO;
+import org.example.pojo.InterestDailyPO;
 import org.example.pojo.dtos.CashTransferAllDTO;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,6 +25,8 @@ public class CashTransferAllReader implements ItemReader<CashTransferAllDTO> {
 
     @Autowired
     private CashTransferMapper cashTransferMapper;
+    @Autowired
+    private ForexRateMapper forexRateMapper;
 
     private List<CashTransferAllDTO> currentBatch;
     private final AtomicInteger currentIndex = new AtomicInteger(0);
@@ -42,7 +49,13 @@ public class CashTransferAllReader implements ItemReader<CashTransferAllDTO> {
 
         int index = currentIndex.getAndIncrement();
         if (index < currentBatch.size()) {
-            return currentBatch.get(index);
+            CashTransferAllDTO dto = currentBatch.get(index);
+            ForexRatePO ratePO = forexRateMapper.selectRateByDate(dto.getCCYFrom(), String.valueOf(dto.getTransferDate()).replaceAll("T"," "));
+            if(ratePO!=null) {//BigDecimal.ONE.divide(ratePO.getXRate(), 4, RoundingMode.HALF_UP)
+                dto.setBaseCcyEquAmtValue(ratePO.getXRate() != null ? dto.getAmountFrom().multiply(ratePO.getXRate()).setScale(2,RoundingMode.HALF_UP) : BigDecimal.ZERO);
+                dto.setBaseCcyEquToAmtValue(ratePO.getXRate() != null ? ratePO.getXRate() : BigDecimal.ZERO);
+            }
+            return dto;
         }
         return null;
     }

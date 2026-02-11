@@ -40,6 +40,9 @@ public class CashTransferAllProcessor implements ItemProcessor<CashTransferAllDT
         Long mainId = idGeneratorService.generateMainId();
 
         McAcOnlineFxReqPO mcAcOnlineFxReqPO = new McAcOnlineFxReqPO();
+        McAcFuntrfCcyexRecPO mcAcFuntrfCcyexRecPO = new McAcFuntrfCcyexRecPO();
+        McAcFuntrfCcyexReqPO mcAcFuntrfCcyexReqPO = new McAcFuntrfCcyexReqPO();
+        McAcFundGenStmtRemrkPO mcAcFundGenStmtRemrkPO = new McAcFundGenStmtRemrkPO();
 
         mcAcOnlineFxReqPO.setAcOnlineFxReqId(idGeneratorService.generateDetailId());
         mcAcOnlineFxReqPO.setCmpnyCde("TFS");
@@ -71,7 +74,80 @@ public class CashTransferAllProcessor implements ItemProcessor<CashTransferAllDT
         mcAcOnlineFxReqPO.setLastUpdBy("MIG");
         mcAcOnlineFxReqPO.setTagSeq(0L);
 
+        mcAcFuntrfCcyexRecPO.setAcFuntrfCcyexRid(mainId);
+        mcAcFuntrfCcyexRecPO.setCmpnyIbusdate(items.getTransferDate());
+        mcAcFuntrfCcyexRecPO.setCmpnyBusdate(items.getTransferDate());
+//        mcAcFuntrfCcyexRecPO.setAcId(items.getClntCodeFrom());
+        mcAcFuntrfCcyexRecPO.setAcId("02-0000389-30");
+        mcAcFuntrfCcyexRecPO.setSegrFundId(1L);
+        mcAcFuntrfCcyexRecPO.setCcyCde(PropertyConverUtils.standardizeCurrencyCode(items.getCCYFrom()));
+        mcAcFuntrfCcyexRecPO.setCmpnyCde("TFS");
+        mcAcFuntrfCcyexRecPO.setFuntrfCcyexTypCde("CCYEXCH");
+        mcAcFuntrfCcyexRecPO.setValDate(items.getTransferDate());
+        mcAcFuntrfCcyexRecPO.setAmt(items.getAmountFrom());
+        mcAcFuntrfCcyexRecPO.setIsPrtRcpt("N");
+        mcAcFuntrfCcyexRecPO.setExchRateTypCde("INDIRECT");
+        mcAcFuntrfCcyexRecPO.setExchRate(items.getFXRate());
+        mcAcFuntrfCcyexRecPO.setRndMtd("ROUNDING");
+//        mcAcFuntrfCcyexRecPO.setToAcId(items.getClntCodeTo());
+        mcAcFuntrfCcyexRecPO.setToAcId("02-0000389-30");
+        mcAcFuntrfCcyexRecPO.setToSegrFundId(1L);
+        mcAcFuntrfCcyexRecPO.setToCmpnyCde("TFS");
+        mcAcFuntrfCcyexRecPO.setToCcyCde(PropertyConverUtils.standardizeCurrencyCode(items.getCCYTo()));
+        mcAcFuntrfCcyexRecPO.setFuntrfCcyexStatCde("APPROVED");
+        mcAcFuntrfCcyexRecPO.setFundChnlCde("MANUALINP");
+        mcAcFuntrfCcyexRecPO.setIsRev("N");
+        mcAcFuntrfCcyexRecPO.setIsUnderRevrse("N");
+        mcAcFuntrfCcyexRecPO.setIsTodayRev("N");
+        mcAcFuntrfCcyexRecPO.setBaseCcyEquAmt(items.getBaseCcyEquAmtValue());
+        mcAcFuntrfCcyexRecPO.setBaseCcyEquToAmt(items.getBaseCcyEquToAmtValue());
+        mcAcFuntrfCcyexRecPO.setIsIgnrDatSync("N");
+        mcAcFuntrfCcyexRecPO.setIsAutoAprv("N");
+//        mcAcFuntrfCcyexRecPO.setRvisUnit("0001");
+        mcAcFuntrfCcyexRecPO.setRvisUnit("0031");
+        mcAcFuntrfCcyexRecPO.setRvisBy("MIG");
+        mcAcFuntrfCcyexRecPO.setChkBy("MIG");
+        mcAcFuntrfCcyexRecPO.setAprvRejCmpnyIbusdate(items.getApprovalTimeFrom());
+        mcAcFuntrfCcyexRecPO.setAprvRejCmpnyBusdate(items.getApprovalTimeFrom());
+        mcAcFuntrfCcyexRecPO.setAprvRejTime(items.getApprovalTimeFrom());
+        mcAcFuntrfCcyexRecPO.setIsTrnfr("N");
+        mcAcFuntrfCcyexRecPO.setIsCcyex("Y");
+        mcAcFuntrfCcyexRecPO.setRecVerNum(0L);
+        mcAcFuntrfCcyexRecPO.setInitTime(LocalDateTime.now());
+        mcAcFuntrfCcyexRecPO.setLastUpdTime(LocalDateTime.now());
+        mcAcFuntrfCcyexRecPO.setLastUpdBy("MIG");
+        mcAcFuntrfCcyexRecPO.setTagSeq(0L);
+        mcAcFuntrfCcyexRecPO.setInitUser("MIG");
+//        mcAcFuntrfCcyexRecPO.setInitUserUnit("0001");
+        mcAcFuntrfCcyexRecPO.setInitUserUnit("0031");
+        mcAcFuntrfCcyexRecPO.setExtrnlRefNum(String.valueOf(items.getSeqNo()));
+        mcAcFuntrfCcyexRecPO.setExtrnlSysCde("OctOBack");
+
+        mcAcFuntrfCcyexReqPO.setAcFuntrfCcyexReqId(idGeneratorService.generateDetailId());
+        mcAcFuntrfCcyexReqPO.setAcFuntrfCcyexRid(mainId);
+//        mcAcFuntrfCcyexReqPO.setAcFundTxnRid();// get from MC_AC_FUND_TXN_REC.AC_FUND_TXN_RID
+        mcAcFuntrfCcyexReqPO.setRecVerNum(0L);
+        mcAcFuntrfCcyexReqPO.setInitTime(LocalDateTime.now());
+        mcAcFuntrfCcyexReqPO.setLastUpdTime(LocalDateTime.now());
+        mcAcFuntrfCcyexReqPO.setLastUpdBy("MIG");
+        mcAcFuntrfCcyexReqPO.setTagSeq(0L);
+
+        mcAcFundGenStmtRemrkPO.setAcFundGenStmtRemrkRid(mainId);
+//        mcAcFundGenStmtRemrkPO.setAcFundRid(); // get from MC_AC_FUND_REC.AC_FUND_RID
+        mcAcFundGenStmtRemrkPO.setAcFundRid(1770190945943L);
+        mcAcFundGenStmtRemrkPO.setIsPrimy("Y");
+        mcAcFundGenStmtRemrkPO.setLangTyp("EN");
+        mcAcFundGenStmtRemrkPO.setRemrkFrStmt(items.getRemarksFrom());
+        mcAcFundGenStmtRemrkPO.setRecVerNum(0L);
+        mcAcFundGenStmtRemrkPO.setInitTime(LocalDateTime.now());
+        mcAcFundGenStmtRemrkPO.setLastUpdTime(LocalDateTime.now());
+        mcAcFundGenStmtRemrkPO.setLastUpdBy("MIG");
+        mcAcFundGenStmtRemrkPO.setTagSeq(0L);
+
         result.setMainRecord(mcAcOnlineFxReqPO);
+        result.setMcAcFuntrfCcyexRecRecord(mcAcFuntrfCcyexRecPO);
+        result.setMcAcFuntrfCcyexReqRecord(mcAcFuntrfCcyexReqPO);
+        result.setMcAcFundGenStmtRemrkRecord(mcAcFundGenStmtRemrkPO);
 
         return result;
     }

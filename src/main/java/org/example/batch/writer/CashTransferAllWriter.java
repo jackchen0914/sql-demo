@@ -2,11 +2,8 @@ package org.example.batch.writer;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.RequiredArgsConstructor;
-import org.example.mapper.McAcOnlineFxReqMapper;
-import org.example.mapper.McRmAcInstrLndratMapper;
-import org.example.pojo.McAcOnlineFxReqPO;
-import org.example.pojo.McPffChrgLogPO;
-import org.example.pojo.McRmAcInstrLndratPO;
+import org.example.mapper.*;
+import org.example.pojo.*;
 import org.example.pojo.dtos.CashTransferAllResultDTO;
 import org.example.pojo.dtos.ClntPriceCapResultDTO;
 import org.example.utils.DataBaseOperationUtils;
@@ -24,6 +21,9 @@ public class CashTransferAllWriter implements ItemWriter<CashTransferAllResultDT
     private static final int BATCH_SIZE = 1000;
 
     private final McAcOnlineFxReqMapper mcAcOnlineFxReqMapper;
+    private final McAcFuntrfCcyexRecMapper mcAcFuntrfCcyexRecMapper;
+    private final McAcFuntrfCcyexReqMapper mcAcFuntrfCcyexReqMapper;
+    private final McAcFundGenStmtRemrkMapper mcAcFundGenStmtRemrkMapper;
 
     @Override
     @DS("oracle")
@@ -33,13 +33,22 @@ public class CashTransferAllWriter implements ItemWriter<CashTransferAllResultDT
             return;
         }
 
-        List<McAcOnlineFxReqPO> mainRecord = new ArrayList<>();
+        List<McAcOnlineFxReqPO> mcAcOnlineFxReqPOList = new ArrayList<>();
+        List<McAcFuntrfCcyexRecPO> mcAcFuntrfCcyexRecPOList = new ArrayList<>();
+        List<McAcFuntrfCcyexReqPO> mcAcFuntrfCcyexReqPOList = new ArrayList<>();
+        List<McAcFundGenStmtRemrkPO> mcAcFundGenStmtRemrkPOList = new ArrayList<>();
 
         for (CashTransferAllResultDTO dto : items){
-            DataBaseOperationUtils.addIfNotNull(mainRecord,dto.getMainRecord());
+            DataBaseOperationUtils.addIfNotNull(mcAcOnlineFxReqPOList,dto.getMainRecord());
+            DataBaseOperationUtils.addIfNotNull(mcAcFuntrfCcyexRecPOList,dto.getMcAcFuntrfCcyexRecRecord());
+            DataBaseOperationUtils.addIfNotNull(mcAcFuntrfCcyexReqPOList,dto.getMcAcFuntrfCcyexReqRecord());
+            DataBaseOperationUtils.addIfNotNull(mcAcFundGenStmtRemrkPOList,dto.getMcAcFundGenStmtRemrkRecord());
         }
 
-        DataBaseOperationUtils.batchInsertFrom(mainRecord,mcAcOnlineFxReqMapper::batchInsert,BATCH_SIZE);
+        DataBaseOperationUtils.batchInsertFrom(mcAcOnlineFxReqPOList,mcAcOnlineFxReqMapper::batchInsert,BATCH_SIZE);
+        DataBaseOperationUtils.batchInsertFrom(mcAcFuntrfCcyexRecPOList,mcAcFuntrfCcyexRecMapper::batchInsert,BATCH_SIZE);
+        DataBaseOperationUtils.batchInsertFrom(mcAcFuntrfCcyexReqPOList,mcAcFuntrfCcyexReqMapper::batchInsert,BATCH_SIZE);
+        DataBaseOperationUtils.batchInsertFrom(mcAcFundGenStmtRemrkPOList,mcAcFundGenStmtRemrkMapper::batchInsert,BATCH_SIZE);
     }
 
 }

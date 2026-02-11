@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.McAcFuntrfCcyexRecMapper">
+
+    <!--  Oracle BatchInsert  -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item">
+            INTO MSSAPP.MC_AC_FUNTRF_CCYEX_REC (AC_FUNTRF_CCYEX_RID, CMPNY_IBUSDATE, CMPNY_BUSDATE, AC_ID, SEGR_FUND_ID,
+            CCY_CDE, CMPNY_CDE, FUNTRF_CCYEX_TYP_CDE, VAL_DATE, AMT, REMRK, IS_PRT_RCPT, LAST_PRT_RCPT_TIME,
+            LAST_PRT_RCPT_BY, CMPNY_BANK_AC_ID, EXCH_RATE_TYP_CDE, EXCH_RATE, RND_MTD, RCPT_NUM, TO_AC_ID,
+            TO_SEGR_FUND_ID, TO_CMPNY_CDE, TO_CCY_CDE, TO_AMT, TO_CMPNY_BANK_AC_ID, FUNTRF_CCYEX_STAT_CDE,
+            FUND_CHNL_CDE, IS_REV, REV_AC_FUNTRF_CCYEX_RID, IS_UNDER_REVRSE, IS_TODAY_REV, BASE_CCY_EQU_AMT,
+            BASE_CCY_EQU_TO_AMT, TO_RCPT_NUM, IS_IGNR_DAT_SYNC, IS_AUTO_APRV, RVIS_UNIT, RVIS_BY, RVIS_CMPNY_IBUSDATE,
+            RVIS_CMPNY_BUSDATE, LAST_RVIS_TIME, CHK_BY, APRV_REJ_CMPNY_IBUSDATE, APRV_REJ_CMPNY_BUSDATE, APRV_REJ_TIME,
+            REJ_REASN, REVW_BY, REVW_CMPNY_IBUSDATE, REVW_CMPNY_BUSDATE, REVW_TIME, REV_BY, REV_CMPNY_IBUSDATE,
+            REV_CMPNY_BUSDATE, REV_TIME, IS_TRNFR, IS_CCYEX, REC_VER_NUM, INIT_TIME, LAST_UPD_TIME, LAST_UPD_BY,
+            TAG_SEQ, FUND_BAT_IMP_ID, FUND_BAT_IMP_CDE, INIT_USER, INIT_USER_UNIT, EXTRNL_REF_NUM, EXTRNL_SYS_CDE,
+            CONV_PURP_CDE, FUND_TP_SCOPE_TYP_CDE, FUND_TP_RELTN_CDE)
+            VALUES (#{item.acFuntrfCcyexRid,jdbcType=BIGINT}, #{item.cmpnyIbusdate,jdbcType=TIMESTAMP},
+            #{item.cmpnyBusdate,jdbcType=TIMESTAMP}, #{item.acId,jdbcType=VARCHAR}, #{item.segrFundId,jdbcType=BIGINT},
+            #{item.ccyCde,jdbcType=VARCHAR}, #{item.cmpnyCde,jdbcType=VARCHAR},
+            #{item.funtrfCcyexTypCde,jdbcType=VARCHAR}, #{item.valDate,jdbcType=TIMESTAMP},
+            #{item.amt,jdbcType=DECIMAL}, #{item.remrk,jdbcType=VARCHAR}, #{item.isPrtRcpt,jdbcType=VARCHAR},
+            #{item.lastPrtRcptTime,jdbcType=TIMESTAMP}, #{item.lastPrtRcptBy,jdbcType=VARCHAR},
+            #{item.cmpnyBankAcId,jdbcType=BIGINT}, #{item.exchRateTypCde,jdbcType=VARCHAR},
+            #{item.exchRate,jdbcType=DECIMAL}, #{item.rndMtd,jdbcType=VARCHAR}, #{item.rcptNum,jdbcType=VARCHAR},
+            #{item.toAcId,jdbcType=VARCHAR}, #{item.toSegrFundId,jdbcType=BIGINT}, #{item.toCmpnyCde,jdbcType=VARCHAR},
+            #{item.toCcyCde,jdbcType=VARCHAR}, #{item.toAmt,jdbcType=DECIMAL}, #{item.toCmpnyBankAcId,jdbcType=BIGINT},
+            #{item.funtrfCcyexStatCde,jdbcType=VARCHAR}, #{item.fundChnlCde,jdbcType=VARCHAR},
+            #{item.isRev,jdbcType=VARCHAR}, #{item.revAcFuntrfCcyexRid,jdbcType=BIGINT},
+            #{item.isUnderRevrse,jdbcType=VARCHAR}, #{item.isTodayRev,jdbcType=VARCHAR},
+            #{item.baseCcyEquAmt,jdbcType=DECIMAL}, #{item.baseCcyEquToAmt,jdbcType=DECIMAL},
+            #{item.toRcptNum,jdbcType=VARCHAR}, #{item.isIgnrDatSync,jdbcType=VARCHAR},
+            #{item.isAutoAprv,jdbcType=VARCHAR}, #{item.rvisUnit,jdbcType=VARCHAR}, #{item.rvisBy,jdbcType=VARCHAR},
+            #{item.rvisCmpnyIbusdate,jdbcType=TIMESTAMP}, #{item.rvisCmpnyBusdate,jdbcType=TIMESTAMP},
+            #{item.lastRvisTime,jdbcType=TIMESTAMP}, #{item.chkBy,jdbcType=VARCHAR},
+            #{item.aprvRejCmpnyIbusdate,jdbcType=TIMESTAMP}, #{item.aprvRejCmpnyBusdate,jdbcType=TIMESTAMP},
+            #{item.aprvRejTime,jdbcType=TIMESTAMP}, #{item.rejReasn,jdbcType=VARCHAR}, #{item.revwBy,jdbcType=VARCHAR},
+            #{item.revwCmpnyIbusdate,jdbcType=TIMESTAMP}, #{item.revwCmpnyBusdate,jdbcType=TIMESTAMP},
+            #{item.revwTime,jdbcType=TIMESTAMP}, #{item.revBy,jdbcType=VARCHAR},
+            #{item.revCmpnyIbusdate,jdbcType=TIMESTAMP}, #{item.revCmpnyBusdate,jdbcType=TIMESTAMP},
+            #{item.revTime,jdbcType=TIMESTAMP}, #{item.isTrnfr,jdbcType=VARCHAR}, #{item.isCcyex,jdbcType=VARCHAR},
+            #{item.recVerNum,jdbcType=BIGINT}, #{item.initTime,jdbcType=TIMESTAMP},
+            #{item.lastUpdTime,jdbcType=TIMESTAMP}, #{item.lastUpdBy,jdbcType=VARCHAR}, #{item.tagSeq,jdbcType=BIGINT},
+            #{item.fundBatImpId,jdbcType=BIGINT}, #{item.fundBatImpCde,jdbcType=VARCHAR},
+            #{item.initUser,jdbcType=VARCHAR}, #{item.initUserUnit,jdbcType=VARCHAR},
+            #{item.extrnlRefNum,jdbcType=VARCHAR}, #{item.extrnlSysCde,jdbcType=VARCHAR},
+            #{item.convPurpCde,jdbcType=VARCHAR}, #{item.fundTpScopeTypCde,jdbcType=VARCHAR},
+            #{item.fundTpReltnCde,jdbcType=VARCHAR})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+</mapper>
