@@ -183,4 +183,7 @@ public class CashVoucherPO implements Serializable {
 
     @TableField("SPIBankAccount")
     private String sPIBankAccount;
+
+    @TableField(exist = false)
+    private Long txnTypIdValue;
 }

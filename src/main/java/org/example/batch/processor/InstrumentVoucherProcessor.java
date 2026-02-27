@@ -199,7 +199,7 @@ public class InstrumentVoucherProcessor implements ItemProcessor<InstrumentVouch
             return null;
         }
         if (typeId.equals("tclId")) {
-            return instrIdByCodeList.get(1).getInstclId() == null ? null : instrIdByCodeList.get(1).getInstclId();
+            return instrIdByCodeList.get(0).getInstclId() == null ? null : instrIdByCodeList.get(0).getInstclId();
         }else {
             return instrIdByCodeList.get(0).getInstrId() == null ? null : instrIdByCodeList.get(0).getInstrId();
         }

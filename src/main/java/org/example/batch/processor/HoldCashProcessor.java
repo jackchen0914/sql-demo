@@ -42,9 +42,9 @@ public class HoldCashProcessor implements ItemProcessor<CashVoucherPO, HoldCashR
         mcAcFundHoldRecPO.setSegrFundId(1L);
         mcAcFundHoldRecPO.setCcyCde(PropertyConverUtils.standardizeCurrencyCode(items.getCcy()));
         mcAcFundHoldRecPO.setCmpnyCde("TFS");
-//            mcAcFundHoldRecPO.setTxnTypId();
+        mcAcFundHoldRecPO.setTxnTypId(items.getTxnTypIdValue());
         mcAcFundHoldRecPO.setRefNum("HF"+items.getVoucherNo());
-        mcAcFundHoldRecPO.setHoldAmt(items.getAmount());
+        mcAcFundHoldRecPO.setHoldAmt(items.getAmount().abs());
         mcAcFundHoldRecPO.setExprDate(items.getValueDate());
         mcAcFundHoldRecPO.setFundHoldTyp("ALL");
         mcAcFundHoldRecPO.setFundHoldStat(fundHoldStatConver(items.getStatusFlag()));

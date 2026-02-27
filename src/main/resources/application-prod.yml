@@ -25,7 +25,7 @@ spring:
         connection-timeout: 60000    # 60秒
         idle-timeout: 600000         # 10分钟
         max-lifetime: 1800000        # 30分钟
-        connection-test-query: SELECT 1
+#        connection-test-query: SELECT 1
 
       datasource:
         # 源数据库 - SQL Server
@@ -64,7 +64,8 @@ spring:
 mybatis-plus:
   configuration:
     # 生产环境关闭SQL日志输出，提升性能
-    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
     # 批量操作优化
     default-executor-type: SIMPLE
     # 缓存配置

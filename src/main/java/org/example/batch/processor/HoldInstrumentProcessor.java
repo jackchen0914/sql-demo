@@ -51,7 +51,7 @@ public class HoldInstrumentProcessor implements ItemProcessor<InstrumentVoucherP
         mcAcHoldStkTxnDtlPO.setAcHoldStkTxnDtlId(idGeneratorService.generateDetailId());
         mcAcHoldStkTxnDtlPO.setAcHoldStkTxnId(mainId);
         mcAcHoldStkTxnDtlPO.setTxnRefNum("HE"+items.getVoucherNo());
-//            mcAcHoldStkTxnDtlPO.setTxnTypId();
+        mcAcHoldStkTxnDtlPO.setTxnTypId(items.getTxnTypIdValue());
 //            mcAcHoldStkTxnDtlPO.setAcId(items.getClnt());
         mcAcHoldStkTxnDtlPO.setAcId("02-0000457-30");
         mcAcHoldStkTxnDtlPO.setCmpnyCde("TFS");
@@ -60,7 +60,7 @@ public class HoldInstrumentProcessor implements ItemProcessor<InstrumentVoucherP
         mcAcHoldStkTxnDtlPO.setMrktId(marketCodeConversion(items));
         mcAcHoldStkTxnDtlPO.setMrktBusdate(items.getVoucherDate());
         mcAcHoldStkTxnDtlPO.setExtrnlRefNum(items.getMarket()+items.getVoucherNo());
-        mcAcHoldStkTxnDtlPO.setHoldStkQty(items.getQuantity());
+        mcAcHoldStkTxnDtlPO.setHoldStkQty(items.getQuantity().abs());
         mcAcHoldStkTxnDtlPO.setExprDate(items.getValueDate());
         mcAcHoldStkTxnDtlPO.setHoldStkStatCde(holdStkStatCodeConver(items));
         mcAcHoldStkTxnDtlPO.setHoldStkChnlCde(Objects.equals(items.getManualInput(), "Yes") ? "MANUAL" : "SYSTEM");
@@ -89,7 +89,7 @@ public class HoldInstrumentProcessor implements ItemProcessor<InstrumentVoucherP
             return null;
         }
         if (typeId.equals("tclId")) {
-            return instrIdByCodeList.get(1).getInstclId() == null ? null : instrIdByCodeList.get(1).getInstclId();
+            return instrIdByCodeList.get(0).getInstclId() == null ? null : instrIdByCodeList.get(0).getInstclId();
         }else {
             return instrIdByCodeList.get(0).getInstrId() == null ? null : instrIdByCodeList.get(0).getInstrId();
         }

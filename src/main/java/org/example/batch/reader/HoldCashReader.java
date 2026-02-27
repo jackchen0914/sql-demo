@@ -4,8 +4,11 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.extern.slf4j.Slf4j;
 import org.example.mapper.CashVoucherMapper;
 import org.example.mapper.ClntPriceCapMapper;
+import org.example.mapper.TransactionTypesMapper;
 import org.example.pojo.CashVoucherPO;
 import org.example.pojo.ClntPriceCapPO;
+import org.example.pojo.TransactionTypesPO;
+import org.example.pojo.dtos.CashVoucherWithRequestDTO;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,9 @@ public class HoldCashReader implements ItemReader<CashVoucherPO> {
 
     @Autowired
     private CashVoucherMapper cashVoucherMapper;
+
+    @Autowired
+    private TransactionTypesMapper transactionTypesMapper;
 
     private List<CashVoucherPO> currentBatch;
     private final AtomicInteger currentIndex = new AtomicInteger(0);
@@ -44,7 +50,10 @@ public class HoldCashReader implements ItemReader<CashVoucherPO> {
 
         int index = currentIndex.getAndIncrement();
         if (index < currentBatch.size()) {
-            return currentBatch.get(index);
+            CashVoucherPO dto = currentBatch.get(index);
+            TransactionTypesPO transactionTypesPO = transactionTypesMapper.selectTxnTypeCode(dto.getTxnType());
+            dto.setTxnTypIdValue(transactionTypesPO.getSignIndicator().equals("C") ? 8513L : 3513L);
+            return dto;
         }
         return null;
     }

@@ -4,8 +4,10 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.extern.slf4j.Slf4j;
 import org.example.mapper.CashVoucherMapper;
 import org.example.mapper.InstrumentVoucherMapper;
+import org.example.mapper.TransactionTypesMapper;
 import org.example.pojo.CashVoucherPO;
 import org.example.pojo.InstrumentVoucherPO;
+import org.example.pojo.TransactionTypesPO;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,9 @@ public class HoldInstrumentReader implements ItemReader<InstrumentVoucherPO> {
 
     @Autowired
     private InstrumentVoucherMapper instrumentVoucherMapper;
+
+    @Autowired
+    private TransactionTypesMapper transactionTypesMapper;
 
     private List<InstrumentVoucherPO> currentBatch;
     private final AtomicInteger currentIndex = new AtomicInteger(0);
@@ -44,7 +49,10 @@ public class HoldInstrumentReader implements ItemReader<InstrumentVoucherPO> {
 
         int index = currentIndex.getAndIncrement();
         if (index < currentBatch.size()) {
-            return currentBatch.get(index);
+            InstrumentVoucherPO dto = currentBatch.get(index);
+            TransactionTypesPO transactionTypesPO = transactionTypesMapper.selectTxnTypeActionCode(dto.getTxnType());
+            dto.setTxnTypIdValue(transactionTypesPO.getSignIndicator().equals("D") ? 7506L : 2506L);
+            return dto;
         }
         return null;
     }
@@ -56,7 +64,7 @@ public class HoldInstrumentReader implements ItemReader<InstrumentVoucherPO> {
             return;
         }//dev
         int offset = currentPage.getAndIncrement() * PAGE_SIZE;
-        currentBatch = instrumentVoucherMapper.selectStatusFlagEqualYByPage(offset,PAGE_SIZE);
+        currentBatch = instrumentVoucherMapper.selectStatusFlagEqualYQuantityByPage(offset,PAGE_SIZE);
         currentIndex.set(0);
 
         if(currentBatch == null || currentBatch.isEmpty()){
