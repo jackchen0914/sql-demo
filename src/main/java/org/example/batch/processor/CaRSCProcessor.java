@@ -38,8 +38,6 @@ public class CaRSCProcessor implements ItemProcessor<CaRSCDTO, CaRSCResultDTO> {
 
         Long mainId = idGeneratorService.generateMainId();
 
-        List<McCeventPO> mcCeventPOList = new ArrayList<>();
-
         McCeventPO mcCeventPO = new McCeventPO();
         McConvEvntPO mcConvEvntPO = new McConvEvntPO();
 
@@ -90,8 +88,7 @@ public class CaRSCProcessor implements ItemProcessor<CaRSCDTO, CaRSCResultDTO> {
         mcConvEvntPO.setIsCcassStk("N");
 
         result.setMainRecord(mcConvEvntPO);
-        mcCeventPOList.add(mcCeventPO);
-        result.setDetailRecord(mcCeventPOList);
+        result.setDetailRecord(mcCeventPO);
 
         return result;
     }

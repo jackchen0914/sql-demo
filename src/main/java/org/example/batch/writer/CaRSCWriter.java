@@ -44,8 +44,8 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
             if(dto.getMainRecord()!=null){
                 mainRecord.add(dto.getMainRecord());
             }
-            if(!dto.getDetailRecord().isEmpty()){
-                detailsRecord.addAll(dto.getDetailRecord());
+            if(dto.getDetailRecord()!=null){
+                detailsRecord.add(dto.getDetailRecord());
             }
         }
 

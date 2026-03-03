@@ -11,5 +11,5 @@ import java.util.List;
 @Data
 public class CaRSCResultDTO {
     private McConvEvntPO mainRecord;
-    private List<McCeventPO> detailRecord;
+    private McCeventPO detailRecord;
 }
