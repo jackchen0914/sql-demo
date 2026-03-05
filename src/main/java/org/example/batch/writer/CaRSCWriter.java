@@ -29,7 +29,6 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
     private final DivAnnCombineMapMSSEMapper divAnnCombineMapMSSEMapper;
 
     @Override
-    @DS("oracle")
     @Transactional(rollbackFor = Exception.class)
     public void write(List<? extends CaRSCResultDTO> items) throws Exception {
         if(items.isEmpty()){
@@ -70,7 +69,6 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
                 divAnnRightsMapMSSEPO.setSharRatioTo(dto.getMainRecord().getSharRatioTo());
                 divAnnRightsMapMSSEPO.setNewInstrId(dto.getDetailRecord().getInstrId());
                 divAnnRightsMapMSSEPOList.add(divAnnRightsMapMSSEPO);
-                divAnnRightsMapMSSEMapper.insert(divAnnRightsMapMSSEPOList);
             }
             if(Objects.equals(dto.getTableFlag(), "split")){
                 splitRecord.add(dto.getMainRecord());
@@ -94,7 +92,6 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
                 divAnnSplitMapMSSEPO.setSharRatioTo(dto.getMainRecord().getSharRatioTo());
                 divAnnSplitMapMSSEPO.setNewInstrId(dto.getDetailRecord().getInstrId());
                 divAnnSplitMapMSSEPOList.add(divAnnSplitMapMSSEPO);
-                divAnnSplitMapMSSEMapper.insert(divAnnSplitMapMSSEPOList);
             }
             if(Objects.equals(dto.getTableFlag(), "consolidation")){
                 consolidRecord.add(dto.getMainRecord());
@@ -118,7 +115,6 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
                 divAnnCombineMapMSSEPO.setSharRatioTo(dto.getMainRecord().getSharRatioTo());
                 divAnnCombineMapMSSEPO.setNewInstrId(dto.getDetailRecord().getInstrId());
                 divAnnCombineMapMSSEPOList.add(divAnnCombineMapMSSEPO);
-                divAnnCombineMapMSSEMapper.insert(divAnnCombineMapMSSEPOList);
             }
 //            if(dto.getMainRecord()!=null){
 //                mainRecord.add(dto.getMainRecord());
@@ -127,6 +123,10 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
 //                detailsRecord.add(dto.getDetailRecord());
 //            }
         }
+        divAnnRightsMapMSSEMapper.insert(divAnnRightsMapMSSEPOList);
+        divAnnSplitMapMSSEMapper.insert(divAnnSplitMapMSSEPOList);
+        divAnnCombineMapMSSEMapper.insert(divAnnCombineMapMSSEPOList);
+
         DataBaseOperationUtils.batchInsertFrom(rightsRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
         DataBaseOperationUtils.batchInsertFrom(rightsDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
         DataBaseOperationUtils.batchInsertFrom(splitRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
