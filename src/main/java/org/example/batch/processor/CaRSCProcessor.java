@@ -89,6 +89,24 @@ public class CaRSCProcessor implements ItemProcessor<CaRSCDTO, CaRSCResultDTO> {
 
         result.setMainRecord(mcConvEvntPO);
         result.setDetailRecord(mcCeventPO);
+        result.setTableFlag(caRSCDTO.getActionTypeList().contains("RGHT") ? "rights" : caRSCDTO.getActionTypeList().contains("SPLT") ? "split" : "consolidation");
+        result.setCcy(caRSCDTO.getCcy());
+        result.setMarket(caRSCDTO.getMarket());
+        result.setAnnouncementNo(caRSCDTO.getAnnouncementNo());
+        result.setActionTypeList(caRSCDTO.getActionTypeList());
+        result.setInstrument(caRSCDTO.getInstrument());
+        //rights
+        result.setRightsIssue(caRSCDTO.getRightsIssue() == null ? null : BigDecimal.valueOf(caRSCDTO.getRightsIssue()));
+        result.setRightsFor(caRSCDTO.getRightsFor() == null ? null : BigDecimal.valueOf(caRSCDTO.getRightsFor()));
+        result.setRightsInstrument(caRSCDTO.getRightsInstrument() == null ? null : caRSCDTO.getRightsInstrument());
+        //splits
+        result.setSplitFrom(caRSCDTO.getSplitFrom() == null ? null : BigDecimal.valueOf(caRSCDTO.getSplitFrom()));
+        result.setSplitTo(caRSCDTO.getSplitTo() == null ? null : BigDecimal.valueOf(caRSCDTO.getSplitTo()));
+        result.setRightsInstrument(caRSCDTO.getRightsIssue() == null ? null : caRSCDTO.getSplitInstrument());
+        //consolidation
+        result.setCombineFrom(caRSCDTO.getCombineFrom() == null ? null : BigDecimal.valueOf(caRSCDTO.getCombineFrom()));
+        result.setCombineTo(caRSCDTO.getCombineTo() == null ? null : BigDecimal.valueOf(caRSCDTO.getCombineTo()));
+        result.setCombineInstrument(caRSCDTO.getCombineInstrument() == null ? null : caRSCDTO.getCombineInstrument());
 
         return result;
     }

@@ -4,6 +4,8 @@
 
     <resultMap type="org.example.pojo.dtos.CaRSCDTO" id="selectDivAnnWithRightMap">
 
+        <result property="actionTypeList"      column="AnnouncementNo"     />
+        <result property="ccy"      column="Ccy"     />
         <result property="actionTypeList"      column="ActionTypeList"     />
         <result property="status"      column="Status"     />
         <result property="referenceNo"      column="ReferenceNo"     />
@@ -26,6 +28,8 @@
 
     <select id="selectDivAnnWithRight" resultMap="selectDivAnnWithRightMap">
         select
+        t1.AnnouncementNo ,
+        t1.Ccy,
         t1.ActionTypeList ,
         t1.Status ,
         t1.Market  ,
