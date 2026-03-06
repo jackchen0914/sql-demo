@@ -1,6 +1,7 @@
 package org.example.batch.writer;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import lombok.RequiredArgsConstructor;
 import org.example.mapper.*;
 import org.example.pojo.*;
@@ -9,7 +10,10 @@ import org.example.pojo.dtos.FeeMigrationResultDTO;
 import org.example.utils.DataBaseOperationUtils;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,13 +32,14 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
     private final DivAnnSplitMapMSSEMapper divAnnSplitMapMSSEMapper;
     private final DivAnnCombineMapMSSEMapper divAnnCombineMapMSSEMapper;
 
+    private final PlatformTransactionManager transactionManager;
+
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void write(List<? extends CaRSCResultDTO> items) throws Exception {
         if(items.isEmpty()){
             return;
         }
-
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         List<McConvEvntPO> rightsRecord = new ArrayList<>();
         List<McCeventPO> rightsDetailsRecord = new ArrayList<>();//rights
         List<McConvEvntPO> splitRecord = new ArrayList<>();
@@ -123,16 +128,38 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
 //                detailsRecord.add(dto.getDetailRecord());
 //            }
         }
-        divAnnRightsMapMSSEMapper.insert(divAnnRightsMapMSSEPOList);
-        divAnnSplitMapMSSEMapper.insert(divAnnSplitMapMSSEPOList);
-        divAnnCombineMapMSSEMapper.insert(divAnnCombineMapMSSEPOList);
+//        divAnnRightsMapMSSEMapper.insert(divAnnRightsMapMSSEPOList);
+//        divAnnSplitMapMSSEMapper.insert(divAnnSplitMapMSSEPOList);
+//        divAnnCombineMapMSSEMapper.insert(divAnnCombineMapMSSEPOList);
 
-        DataBaseOperationUtils.batchInsertFrom(rightsRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
-        DataBaseOperationUtils.batchInsertFrom(rightsDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
-        DataBaseOperationUtils.batchInsertFrom(splitRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
-        DataBaseOperationUtils.batchInsertFrom(splitDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
-        DataBaseOperationUtils.batchInsertFrom(consolidRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
-        DataBaseOperationUtils.batchInsertFrom(consolidDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+//        saveToOracle(rightsRecord,rightsDetailsRecord,splitRecord,splitDetailsRecord,consolidRecord,consolidDetailsRecord);
+//        saveToMaster(divAnnRightsMapMSSEPOList,divAnnSplitMapMSSEPOList,divAnnCombineMapMSSEPOList);
+        transactionTemplate.execute(status -> {
+            DynamicDataSourceContextHolder.push("oracle");
+            DataBaseOperationUtils.batchInsertFrom(rightsDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+            DataBaseOperationUtils.batchInsertFrom(rightsRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
+            DataBaseOperationUtils.batchInsertFrom(splitDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+            DataBaseOperationUtils.batchInsertFrom(splitRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
+            DataBaseOperationUtils.batchInsertFrom(consolidDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+            DataBaseOperationUtils.batchInsertFrom(consolidRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
+            DynamicDataSourceContextHolder.poll();
+            return null;
+        });
+        TransactionTemplate transactionTemplate2 = new TransactionTemplate(transactionManager);
+        transactionTemplate2.execute(status -> {
+            DynamicDataSourceContextHolder.push("master");
+            if (!divAnnRightsMapMSSEPOList.isEmpty()) {
+                divAnnRightsMapMSSEMapper.insert(divAnnRightsMapMSSEPOList);
+            }
+            if (!divAnnSplitMapMSSEPOList.isEmpty()) {
+                divAnnSplitMapMSSEMapper.insert(divAnnSplitMapMSSEPOList);
+            }
+            if (!divAnnCombineMapMSSEPOList.isEmpty()) {
+                divAnnCombineMapMSSEMapper.insert(divAnnCombineMapMSSEPOList);
+            }
+            DynamicDataSourceContextHolder.poll();
+            return null;
+        });
 //        batchInsertDetailRecords(detailsRecord);
 //        batchInsertMainRecords(mainRecord);
 
@@ -146,6 +173,32 @@ public class CaRSCWriter implements ItemWriter<CaRSCResultDTO> {
         divAnnSplitMapMSSEPOList.clear();
         divAnnCombineMapMSSEPOList.clear();// 内存回收
     }
+
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @DS("oracle")
+//    private void saveToOracle(List<McConvEvntPO> rightsRecord, List<McCeventPO> rightsDetailsRecord, List<McConvEvntPO> splitRecord, List<McCeventPO> splitDetailsRecord, List<McConvEvntPO> consolidRecord, List<McCeventPO> consolidDetailsRecord){
+//        DataBaseOperationUtils.batchInsertFrom(rightsDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+//        DataBaseOperationUtils.batchInsertFrom(rightsRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
+//        DataBaseOperationUtils.batchInsertFrom(splitDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+//        DataBaseOperationUtils.batchInsertFrom(splitRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
+//        DataBaseOperationUtils.batchInsertFrom(consolidDetailsRecord,mcCeventMapper::batchInsert,BATCH_SIZE);
+//        DataBaseOperationUtils.batchInsertFrom(consolidRecord,mcConvEvntMapper::batchInsert,BATCH_SIZE);
+//    }
+//
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @DS("master")
+//    private void saveToMaster(List<DivAnnRightsMapMSSEPO> divAnnRightsMapMSSEPOList, List<DivAnnSplitMapMSSEPO> divAnnSplitMapMSSEPOList, List<DivAnnCombineMapMSSEPO> divAnnCombineMapMSSEPOList){
+//        if(!divAnnRightsMapMSSEPOList.isEmpty()){
+//            divAnnRightsMapMSSEMapper.insert(divAnnRightsMapMSSEPOList);
+//        }
+//        if(!divAnnSplitMapMSSEPOList.isEmpty()){
+//            divAnnSplitMapMSSEMapper.insert(divAnnSplitMapMSSEPOList);
+//        }
+//        if(!divAnnCombineMapMSSEPOList.isEmpty()){
+//            divAnnCombineMapMSSEMapper.insert(divAnnCombineMapMSSEPOList);
+//        }
+//
+//    }
 
 //    private void batchInsertDetailRecords(List<McCeventPO> detailsRecord) {
 //        if(detailsRecord.isEmpty()){
