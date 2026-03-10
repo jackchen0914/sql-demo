@@ -11,7 +11,8 @@ import org.example.pojo.McAcOnlineFxReqPO;
  * @author JackChen
  * @since 2025-12-25
  */
-public interface IMcAcOnlineFxReqService extends IService<McAcOnlineFxReqPO> {
+public interface CashTransferToMsseService {
 
-    void writeProcessedData();
+    String writeProcessedData();
+
 }
