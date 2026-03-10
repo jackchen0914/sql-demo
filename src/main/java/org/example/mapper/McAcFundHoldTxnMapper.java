@@ -21,5 +21,5 @@ import java.util.List;
 @DS("oracle")
 public interface McAcFundHoldTxnMapper extends BaseMapper<McAcFundHoldTxnPO> {
 
-    int batchInsert(@Param("list") List<McAcFundHoldRecPO> mcAcFundHoldRecPOS);
+    int batchInsert(@Param("list") List<McAcFundHoldTxnPO> mcAcFundHoldTxnPOS);
 }
