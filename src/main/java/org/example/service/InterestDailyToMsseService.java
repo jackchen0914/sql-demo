@@ -11,7 +11,8 @@ import org.example.pojo.McAcuintTxnDtlPO;
  * @author JackChen
  * @since 2025-12-25
  */
-public interface IMcAcuintTxnDtlService extends IService<McAcuintTxnDtlPO> {
+public interface InterestDailyToMsseService{
 
-    void writeProcessedData();
+    String writeProcessedData();
+
 }
