@@ -11,7 +11,8 @@ import org.example.pojo.McAcStkTxnDtlPO;
  * @author JackChen
  * @since 2025-12-19
  */
-public interface IMcAcStkTxnDtlService extends IService<McAcStkTxnDtlPO> {
+public interface InstrumentVoucherToMsseService {
 
-    void writeProcessedData() throws InterruptedException;
+    String writeProcessedData();
+
 }
