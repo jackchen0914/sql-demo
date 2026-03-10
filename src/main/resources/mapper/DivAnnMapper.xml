@@ -4,7 +4,7 @@
 
     <resultMap type="org.example.pojo.dtos.CaRSCDTO" id="selectDivAnnWithRightMap">
 
-        <result property="actionTypeList"      column="AnnouncementNo"     />
+        <result property="announcementNo"      column="AnnouncementNo"     />
         <result property="ccy"      column="Ccy"     />
         <result property="actionTypeList"      column="ActionTypeList"     />
         <result property="status"      column="Status"     />

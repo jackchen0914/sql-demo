@@ -40,7 +40,7 @@ public class HoldCashWriter implements ItemWriter<HoldCashResultDTO> {
             DataBaseOperationUtils.addIfNotNull(detailRecord,dto.getDetailRecord());
         }
 
-        DataBaseOperationUtils.batchInsertFrom(mainRecord,mcAcFundHoldTxnMapper::batchInsert,BATCH_SIZE);
+        DataBaseOperationUtils.batchInsertFrom(detailRecord,mcAcFundHoldTxnMapper::batchInsert,BATCH_SIZE);
         DataBaseOperationUtils.batchInsertFrom(mainRecord,mcAcFundHoldRecMapper::batchInsert,BATCH_SIZE);
     }
 }
