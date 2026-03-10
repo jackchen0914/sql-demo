@@ -11,7 +11,7 @@ import org.example.pojo.McCeventPO;
  * @author JackChen
  * @since 2026-01-07
  */
-public interface IMcCeventService extends IService<McCeventPO> {
+public interface CaRscTOMsseService{
 
-    void writeProcessedData();
+    String writeProcessedData();
 }
