@@ -11,7 +11,8 @@ import org.example.pojo.McAcHoldStkTxnDtlPO;
  * @author JackChen
  * @since 2025-12-24
  */
-public interface IMcAcHoldStkTxnDtlService extends IService<McAcHoldStkTxnDtlPO> {
+public interface HoldInstrumentToMsseService {
 
-    void writeProcessedData();
+    String writeProcessedData();
+
 }
