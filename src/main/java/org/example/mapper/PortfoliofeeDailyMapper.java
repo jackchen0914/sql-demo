@@ -27,7 +27,7 @@ public interface PortfoliofeeDailyMapper extends BaseMapper<PortfoliofeeDailyPO>
     List<PortfoliofeeDailyPO> selectTop5();
 
     @Select("SELECT [Date], ClntCode, AcctType, Market, CCY, [Type], PortfolioValue, Rate, CalculationPeriod, Status, PostDate, ReferenceNo, FeeBeforeMin, Fee, ORFee\n" +
-            "FROM dbo.PortfolioFee_Daily ORDER BY ClntCode OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
+            "FROM dbo.PortfolioFee_Daily where Status = 'NEW' and PostDate is null order by date desc OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY")
     List<PortfoliofeeDailyPO> selectByPage(@Param("offset") int offset,@Param("limit") int limit);
 
     @Select("SELECT COUNT(*) FROM dbo.PortfolioFee_Daily")

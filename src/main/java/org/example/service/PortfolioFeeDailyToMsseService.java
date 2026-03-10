@@ -11,7 +11,8 @@ import org.example.pojo.McPffChrgLogDtlPO;
  * @author JackChen
  * @since 2025-12-29
  */
-public interface IMcPffChrgLogDtlService extends IService<McPffChrgLogDtlPO> {
+public interface PortfolioFeeDailyToMsseService {
 
-    void writeProcessedData();
+    String writeProcessedData();
+
 }
