@@ -11,8 +11,8 @@ import org.example.pojo.McAcFundRecPO;
  * @author JackChen
  * @since 2025-12-12
  */
-public interface IMcAcFundRecService extends IService<McAcFundRecPO> {
+public interface CashVoucherToMsseService {
 
-    void writeProcessedData() throws InterruptedException;
+    String writeProcessedData() ;
 
 }
