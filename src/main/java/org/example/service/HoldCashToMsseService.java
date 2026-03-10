@@ -11,8 +11,8 @@ import org.example.pojo.McAcFundHoldRecPO;
  * @author JackChen
  * @since 2025-12-23
  */
-public interface IMcAcFundHoldRecService extends IService<McAcFundHoldRecPO> {
+public interface HoldCashToMsseService {
 
+    String writeProcessedData();
 
-    void writeProcessedData();
 }
