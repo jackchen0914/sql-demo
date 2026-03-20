@@ -1,11 +1,5 @@
 server:
   port: 8088
-  tomcat:
-    threads:
-      max: 200              # 增加Tomcat线程数
-      min-spare: 10
-    max-connections: 10000  # 增加最大连接数
-    accept-count: 100
 
 spring:
   batch:
@@ -18,54 +12,58 @@ spring:
     dynamic:
       primary: master
       strict: false
-      hikari:
-        # 生产环境连接池配置（优化版）
-        maximum-pool-size: 30        # 增加到30
-        minimum-idle: 10             # 增加到10
-        connection-timeout: 60000    # 60秒
-        idle-timeout: 600000         # 10分钟
-        max-lifetime: 1800000        # 30分钟
-#        connection-test-query: SELECT 1
-
       datasource:
         # 源数据库 - SQL Server
         master:
           driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-          url: jdbc:sqlserver://10.5.80.179:1433;databaseName=OctOBackFT_1231;encrypt=true;trustServerCertificate=true
-          username: pleung
-          password: 123456
+          # socketTimeout=600000：Socket 读超时10分钟，防止大查询被切断
+          # loginTimeout=30：登录超时30秒
+          url: jdbc:sqlserver://10.5.80.179:1433;databaseName=OctobackFTMig;encrypt=true;trustServerCertificate=true;rewriteBatchedStatements=true;socketTimeout=600000;loginTimeout=30
+          username: Octo
+          password: 49573481
           hikari:
-            maximum-pool-size: 20    # 读取数据，适度增加
+            maximum-pool-size: 20
             minimum-idle: 10
-            connection-timeout: 60000
-            # SQL Server特定优化
-            data-source-properties:
-              cachePrepStmts: true
-              prepStmtCacheSize: 250
-              prepStmtCacheSqlLimit: 2048
+            # 连接保活：每30秒心跳，防止防火墙断开空闲连接
+            keepalive-time: 30000
+            # 空闲连接超时：10分钟
+            idle-timeout: 600000
+            # 连接最大存活时间：30分钟
+            max-lifetime: 1800000
+            # 连接获取超时：30秒
+            connection-timeout: 30000
+            # 连接有效性检测 SQL
+            connection-test-query: SELECT 1
+            validation-timeout: 5000
 
         # 目标数据库 - Oracle
         oracle:
           driver-class-name: oracle.jdbc.OracleDriver
-          url: jdbc:oracle:thin:@//10.11.198.16:1721/MSEUZ
+          url: jdbc:oracle:thin:@//10.11.198.16:1721/MSEUZ?rewriteBatchedStatements=true
           username: JTQAMSSAPP
           password: JTQAMSSAPP!
           hikari:
-            maximum-pool-size: 25    # 写入较多，增加连接数
+            maximum-pool-size: 25
             minimum-idle: 10
-            connection-timeout: 60000
-            # Oracle特定优化
-            data-source-properties:
-              oracle.jdbc.defaultBatchValue: 2000  # 批量操作大小
-              oracle.net.CONNECT_TIMEOUT: 60000
-              oracle.jdbc.ReadTimeout: 300000      # 5分钟读取超时
+            # 连接保活：每30秒对空闲连接发一次心跳，防止 Oracle/防火墙主动断开
+            keepalive-time: 30000
+            # 空闲连接超时：超过10分钟未使用则回收（需小于 Oracle sqlnet 超时）
+            idle-timeout: 600000
+            # 连接最大存活时间：30分钟强制重建，防止老连接积累问题
+            max-lifetime: 1800000
+            # 连接获取超时：30秒内拿不到连接则报错
+            connection-timeout: 30000
+            # 连接有效性检测 SQL
+            connection-test-query: SELECT 1 FROM DUAL
+            # 在连接从池中取出前验证有效性
+            validation-timeout: 5000
 
 # MyBatis Plus 生产环境配置
 mybatis-plus:
   configuration:
     # 生产环境关闭SQL日志输出，提升性能
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
     # 批量操作优化
     default-executor-type: SIMPLE
     # 缓存配置
@@ -94,35 +92,3 @@ logging:
     name: logs/application.log
     max-size: 100MB
     max-history: 30
-
-# ==========================================
-# JVM参数建议
-# ==========================================
-# -Xms4g                    # 初始堆内存4GB
-# -Xmx8g                    # 最大堆内存8GB
-# -XX:+UseG1GC              # 使用G1垃圾收集器
-# -XX:MaxGCPauseMillis=200  # GC暂停时间目标
-# -XX:+HeapDumpOnOutOfMemoryError
-# -XX:HeapDumpPath=logs/heapdump.hprof
-
-# ==========================================
-# 性能调优说明
-# ==========================================
-# 1. 数据库连接池大小计算公式：
-#    连接数 = ((核心数 * 2) + 有效磁盘数)
-#    例如：8核CPU + 2个磁盘 = (8*2+2) = 18个连接
-#    建议预留20-30%余量
-#
-# 2. 线程数配置：
-#    CPU密集型：线程数 = CPU核心数 + 1
-#    IO密集型：线程数 = CPU核心数 * 2
-#    本项目为IO密集型，建议10-20个线程
-#
-# 3. Chunk大小选择：
-#    - 太小：频繁提交事务，性能差
-#    - 太大：内存占用高，事务时间长
-#    - 建议：3000-10000，根据单条记录大小调整
-#
-# 4. 批量插入大小：
-#    - Oracle建议：1000-5000
-#    - 本项目设置：2000（平衡性能和内存）
