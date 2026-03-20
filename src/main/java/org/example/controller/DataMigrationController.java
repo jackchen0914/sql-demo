@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.service.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,6 +36,11 @@ public class DataMigrationController {
     @GetMapping("/cashVoucherTable")
     public String cashVoucherTable() {
         return cashVoucherToMsseService.writeProcessedData();
+    }
+
+    @GetMapping("/cashVoucherTable/test")
+    public String cashVoucherTable(@RequestParam(defaultValue = "1000000") int limit) {
+        return cashVoucherToMsseService.writeProcessedData(limit);
     }
 
     @GetMapping("/holdCashTable")

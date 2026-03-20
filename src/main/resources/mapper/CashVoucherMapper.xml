@@ -102,4 +102,71 @@
 
     </select>
 
+    <!-- 查询最早的 VoucherDate -->
+    <select id="selectMinVoucherDate" resultType="java.time.LocalDateTime">
+        SELECT TOP 1 VoucherDate
+        FROM CashVoucher
+        WHERE VoucherDate IS NOT NULL
+        ORDER BY VoucherDate ASC
+    </select>
+
+    <!-- 查询最晚的 VoucherDate -->
+    <select id="selectMaxVoucherDate" resultType="java.time.LocalDateTime">
+        SELECT TOP 1 VoucherDate
+        FROM CashVoucher
+        WHERE VoucherDate IS NOT NULL
+        ORDER BY VoucherDate DESC
+    </select>
+
+    <!-- 按年份区间分页查询，用于多线程按年处理 -->
+    <select id="selectCashVoucherByYearPage" resultMap="CashVoucherWithRequestMap">
+        select
+        t1.InputDate,
+        t1.Clnt,
+        t1.CCY,
+        t1.TxnType,
+        t1.VoucherNo,
+        t1.Amount,
+        t1.ValueDate,
+        t1.StatusFlag,
+        t1.ManualInput,
+        t1.VoucherDate,
+        t1.Userid,
+        t1.Remark,
+        t1.[Source],
+        t1.AccountName,
+        t1.AccountNumber,
+        t1.Status,
+        t1.Charge,
+        t1.CancelDate,
+        t1.ConfirmationDate,
+        t1.ApprovalTime,
+        t1.Market,
+        t2.Relationship,
+        t2.Mode,
+        t2.WithdrawMode,
+        t2.BenfName
+        from
+        CashVoucher t1
+        left join CashVoucherRequest t2 on
+        t1.VoucherNo = t2.VoucherNo
+        and t1.Market = t2.Market
+        where
+        t1.VoucherDate IS NOT NULL
+        AND t1.VoucherDate &gt;= #{startTime}
+        AND t1.VoucherDate &lt; #{endTime}
+        order by
+        t1.VoucherDate ASC, t1.VoucherNo, t1.Market
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!-- 查询指定年份区间内的记录总数 -->
+    <select id="countCashVoucherByYear" resultType="long">
+        SELECT COUNT(1)
+        FROM CashVoucher t1
+        WHERE t1.VoucherDate IS NOT NULL
+        AND t1.VoucherDate &gt;= #{startTime}
+        AND t1.VoucherDate &lt; #{endTime}
+    </select>
+
 </mapper>

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.example.pojo.CashVoucherPO;
 import org.example.pojo.dtos.CashVoucherWithRequestDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -31,4 +32,36 @@ public interface CashVoucherMapper extends BaseMapper<CashVoucherPO> {
 
    List<CashVoucherWithRequestDTO> selectCashVoucherWithRequest(@Param("offset") int offset, @Param("limit") int limit);
 
+    /**
+     * 查询 CashVoucher 表中最早的 VoucherDate（升序第一条）
+     */
+    LocalDateTime selectMinVoucherDate();
+
+    /**
+     * 查询 CashVoucher 表中最晚的 VoucherDate（降序第一条）
+     */
+    LocalDateTime selectMaxVoucherDate();
+
+    /**
+     * 按年份区间分页查询，用于多线程按年处理
+     *
+     * @param startTime 年初时间
+     * @param endTime   年末时间
+     * @param offset    分页偏移
+     * @param limit     每页大小
+     */
+    List<CashVoucherWithRequestDTO> selectCashVoucherByYearPage(
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime,
+            @Param("offset") int offset,
+            @Param("limit") int limit
+    );
+
+    /**
+     * 查询指定年份区间内的记录总数，用于计算总批数
+     */
+    long countCashVoucherByYear(
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime
+    );
 }
